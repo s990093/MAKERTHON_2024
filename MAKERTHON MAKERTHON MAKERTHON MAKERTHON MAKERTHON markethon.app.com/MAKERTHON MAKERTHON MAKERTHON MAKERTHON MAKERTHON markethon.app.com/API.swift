@@ -10,7 +10,6 @@ import Foundation
 
 
 import Foundation
-
 class UserAPI {
     static let shared = UserAPI()
     private let baseURL = URL(string: "https://zh.wikipedia.org/wiki/%E5%AE%89%E5%90%89%E4%B8%BD%E5%A8%9C%C2%B7%E6%9C%B1%E8%8E%89")!
