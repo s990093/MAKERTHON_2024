@@ -4,9 +4,9 @@
 
 #include <ESP8266WiFi.h>
 #include <SimpleDHT.h>
-#include <ArduinoJson.h>
-#include <ESP8266HTTPClient.h>
-#include <WiFiClient.h>
+// #include <ArduinoJson.h>
+// #include <ESP8266HTTPClient.h>
+// #include <WiFiClient.h>
 
 
 extern SimpleDHT11 dht11;
@@ -30,8 +30,8 @@ const int pinLed = 0;
 void readSensorData();
 void readSensorData2();
 void Judge();
-void PostRequest();
-void GetRequest();
+// void PostRequest();
+// void GetRequest();
 void handleButton(int pin);
 
 #endif
