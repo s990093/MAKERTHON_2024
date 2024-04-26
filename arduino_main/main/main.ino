@@ -2,8 +2,9 @@
 #include <WiFiClient.h>
 
 #include "config.h"
-#include "util.h"
 #include "timer.h"
+#include "util.h"
+#include "func.h"
 
 unsigned long DebugTemp = 0;  
 unsigned long RequestTemp = 0;  
