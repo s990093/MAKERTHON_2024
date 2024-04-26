@@ -3,21 +3,13 @@
 
 #include "config.h"
 #include "util.h"
+#include "timer.h"
 
-unsigned long DebugTime = 0;
-unsigned long DebugTemp = 100;  
-
-unsigned long RequestTime = 0;
-unsigned long RequestTemp = 5000;  
-
+unsigned long DebugTemp = 0;  
+unsigned long RequestTemp = 0;  
 unsigned long BaseSensorTemp = 0;
-unsigned long BaseSensorTime = 2000; 
-
 unsigned long AdvancedSensorTemp = 0;
-unsigned long AdvancedSensorTime = 1000;  
-
 unsigned long ServerTemp = 0;
-unsigned long ServerTime = 1000; 
 
 void setup() {
   WiFi.mode(WIFI_STA);
@@ -48,9 +40,9 @@ void loop() {
   }
 
   // Execute API request
-  if (MS - RequestTime >= RequestTemp) {
+  if (MS - RequestTemp >= RequestTime) {
     PostRequest();
-    RequestTime = MS;
+    RequestTemp = MS;
   }
 
   // Read rain sensor
