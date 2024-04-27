@@ -3,6 +3,7 @@
 
 bool DEPL;
 bool isClick;
+bool BUZT;
 
 void PostRequest() {
   HTTPClient http;
@@ -63,9 +64,9 @@ void PostRequest() {
 void GetRequest() {
   HTTPClient http;
   WiFiClient client;
-  String apiUrl = "http://49.213.238.75:8000/i/setting";  
+  String apiUrl = "http://49.213.238.75:8000/app/";  
   http.begin(client, apiUrl);
-  http.setTimeout(1000); // 設置超時時間為 1000 毫秒
+  http.setTimeout(500); // 設置超時時間為 1000 毫秒
   http.addHeader("Content-Type", "application/json");
   int httpCode = http.GET();
   if (httpCode > 0) {
@@ -77,17 +78,11 @@ void GetRequest() {
       Serial.println(error.c_str());
       return;
     }
-    isClick = doc["isClick"];
+    isClick = doc["is_clicked"];
     Serial.print("isClick: ");
     Serial.println(isClick);
+    digitalWrite(OUT, isClick);
 
-    // controlValve = doc["control_valve"];
-    // autoDetect = doc["auto_detect"];
-    // tempMode = int(controlValve) * 2 + int(autoDetect);
-    // Serial.print("control_valve: ");
-    // Serial.println(controlValve);
-    // Serial.print("auto_detect: ");
-    // Serial.println(autoDetect);
     
   } else {
     String temp = http.errorToString(httpCode).c_str(); 
@@ -96,10 +91,26 @@ void GetRequest() {
   http.end();
 }
 
+
 void HelloWorld(){
-  Serial.println("print test");
-  digitalWrite(LED_BUILTIN, !DEPL);
+  Serial.println("debug test");
+  digitalWrite(LED_BUILTIN, DEPL);
   if (DEPL == 1) DEPL = 0;
   else DEPL = 1;
 }
+
+void Debounce(bool state){
+  static bool oldState = state;
+  static bool newState;
+  // digitalWrite(Buzzpin,false);
+  BUZT = 0;
+  newState = state;
+  if(newState != oldState && newState == true){
+    Serial.print("彈跳！");
+    BUZT = 1 ;
+    // digitalWrite(Buzzpin,true);
+  }
+  oldState = newState;
+}
+
 /// func.cpp ///
