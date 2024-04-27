@@ -30,3 +30,43 @@ class UserAPI {
         }.resume()
     }
 }
+
+
+func postToServer(isclick: Bool) {
+    // 服务器 URL
+    let url = URL(string: "http://49.213.238.75:8000/app/")!
+    var request = URLRequest(url: url)
+    request.httpMethod = "POST"
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+    // 请求体的 JSON 数据
+    let jsonData: [String: Any] = ["isclick": isclick]
+    request.httpBody = try? JSONSerialization.data(withJSONObject: jsonData, options: [])
+
+    URLSession.shared.dataTask(with: request) { data, response, error in
+        if let error = error {
+            print("Error: \(error.localizedDescription)")
+        } else if let response = response as? HTTPURLResponse {
+            if response.statusCode == 200 {
+                print("Success: \(response.statusCode)")
+                // 读取数据并尝试解码
+                if let data = data {
+                    do {
+                        // 假设响应是 JSON 格式
+                        if let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                            print("Response content:", jsonResponse)
+                        } else {
+                            print("Unexpected response format")
+                        }
+                    } catch {
+                        print("Error decoding response:", error.localizedDescription)
+                    }
+                } else {
+                    print("No data in response")
+                }
+            } else {
+                print("Unexpected response. Status code:", response.statusCode)
+            }
+        }
+    }.resume()
+}

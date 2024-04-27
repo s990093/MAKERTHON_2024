@@ -6,10 +6,10 @@ struct ContentView: View {
     
     var body: some View {
         TabView {
-            FirstView()
+            RescueView()
                 .tabItem {
                     Image(systemName: "1.circle")
-                    Text("First")
+                    Text("求助")
                 }
             
             SecondView()
@@ -24,9 +24,9 @@ struct ContentView: View {
                     Text("Third")
                 }
         }
-        .onAppear {
-            fetchUsers()
-        }
+//        .onAppear {
+//            fetchUsers()
+//        }
     }
     
     func fetchUsers() {
