@@ -31,7 +31,6 @@ class UserAPI {
     }
 }
 
-
 func postToServer(isclick: Bool) {
     // 服务器 URL
     let url = URL(string: "http://49.213.238.75:8000/app/")!
