@@ -18,6 +18,6 @@ void PostRequest();
 void GetRequest();
 void HelloWorld();
 void Debounce(bool state);
-
+void Debounce2(bool state);
 #endif
 /// func.h ///

@@ -81,9 +81,6 @@ void GetRequest() {
     isClick = doc["is_clicked"];
     Serial.print("isClick: ");
     Serial.println(isClick);
-    digitalWrite(OUT, isClick);
-
-    
   } else {
     String temp = http.errorToString(httpCode).c_str(); 
     Serial.println("HTTP GET request failed. Error: " + temp);
@@ -102,15 +99,27 @@ void HelloWorld(){
 void Debounce(bool state){
   static bool oldState = state;
   static bool newState;
-  // digitalWrite(Buzzpin,false);
   BUZT = 0;
   newState = state;
   if(newState != oldState && newState == true){
-    Serial.print("彈跳！");
+    Serial.println("彈跳！");
     BUZT = 1 ;
-    // digitalWrite(Buzzpin,true);
   }
+  digitalWrite(OUT, BUZT);
   oldState = newState;
 }
 
+void Debounce2(bool state){
+  static bool oldState = state;
+  static bool newState;
+  int  mod = 0;
+  newState = state;
+  if(newState != oldState){
+
+    Serial.println("彈跳2！ " + newState);
+    mod = newState ;
+    digitalWrite(OUT, mod);
+  }
+  oldState = newState;
+}
 /// func.cpp ///
