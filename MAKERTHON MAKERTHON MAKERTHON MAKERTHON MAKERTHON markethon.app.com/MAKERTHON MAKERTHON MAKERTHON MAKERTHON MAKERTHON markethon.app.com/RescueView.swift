@@ -9,7 +9,7 @@ struct RescueView: View {
     var body: some View {
         VStack {
             Text("拉下拉桿警急求助")
-                .font(.system(size: 40))
+                .font(.system(size: 80))
                 .padding()
             
             Spacer()
@@ -17,7 +17,7 @@ struct RescueView: View {
             ZStack {
                 // 背景區域，展示觸發門檻
                 Rectangle()
-                    .frame(width: 150, height: 500)
+                    .frame(width: 150, height: 700)
                     .foregroundColor(Color.gray.opacity(0.2))
                     .cornerRadius(25)
                     .overlay(
@@ -35,7 +35,7 @@ struct RescueView: View {
                     .cornerRadius(15)
                     .shadow(radius: 10)
                     .overlay(Text("拉下").font(.title).foregroundColor(.white))
-                    .offset(y: offsetY - 200) // 將拉桿置於起點
+                    .offset(y: offsetY - 300) // 將拉桿置於起點
                     .gesture(
                         DragGesture()
                             .onChanged { value in
