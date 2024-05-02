@@ -1,72 +1,57 @@
 import json
 import os
+import torch
+import io
 from django.http import JsonResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import *
-import sys
-import torch
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
+from ultralytics import YOLO
+from .models import Click
+from .models import ClickSerializer
 
 
-base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# 加载 YOLOv8 模型
+try:
+    model = YOLO('yolov8s.pt')  # 确保路径正确
+except Exception as e:
+    raise Exception(f"Error loading YOLO model: {str(e)}")
 
-# 将 yolov5 目录添加到 Python 模块路径
-yolov5_path = os.path.join(base_dir, './../yolov5')  # 相对路径至 yolov5
 
-# # 加載 YOLO 模型
-path_weightfile = f"{yolov5_path}/yolov5s.pt"
-model = torch.hub.load(yolov5_path, 'custom',
-                               path=path_weightfile, source='local', device='mps')
 class AppAPIView(APIView):
-    def get(self, request):
-        click_instance = Click.objects.first() 
-        serializer = ClickSerializer(click_instance)
-        return Response(serializer.data)
-    
     def post(self, request, *args, **kwargs):
+        file_path = None  # 初始化变量以便在 finally 中访问
         
-        
-        if 'file' not in request.FILES:
-            return JsonResponse({'error': 'No file uploaded'}, status=400)
+        try:
+            if 'file' not in request.FILES:
+                return JsonResponse({'error': 'No file uploaded'}, status=400)
 
-        uploaded_file = request.FILES['file']
-        
-          # 获取上传的文件
-        uploaded_file = request.FILES['file']
+            uploaded_file = request.FILES['file']
 
-        # 保存到临时文件夹
-        file_path = default_storage.save(uploaded_file.name, ContentFile(uploaded_file.read()))
+            # 保存到临时文件夹
+            file_path = default_storage.save(uploaded_file.name, ContentFile(uploaded_file.read()))
 
-        # 使用 YOLO 模型进行检测
-        results = model(file_path)  # 使用文件路径作为输入
+            # 使用 YOLO 进行检测
+            results = model(file_path, device="mps")  # 假设模型需要文件路径
 
-        json_str = results.pandas().xyxy[0].to_json(orient='records')
-        
-        
-        detections = json.loads(json_str)
-        
-        
-        
-        
-        # high_confidence_results = [r for r in detections if r['confidence'] > 0.5]
-        
-        # print(high_confidence_results)
+            # 处理结果，获取所需信息
+            class_names = []
+            for result in results:
+                class_ids = result.boxes.cls
+                class_names.extend([model.names[int(cls_id)] for cls_id in class_ids])
 
-      
+            # 返回 JSON 响应
+            return JsonResponse({
+                'file_name': uploaded_file.name,
+                'file_size': uploaded_file.size,
+                'class_names': class_names,
+            })
 
-        # 删除临时文件
-        os.remove(file_path)
-        
-        # print(results)
+        except Exception as e:
+            print(str(e))
+            return JsonResponse({'error': str(e)}, status=500)
 
-        file_name = uploaded_file.name
-        file_size = uploaded_file.size
-
-        # 返回 JSON 响应
-        return JsonResponse({
-            'file_name': file_name,
-            'file_size': file_size,
-            'detections':detections[0].get("name"),
-        })
+        finally:
+            if file_path and os.path.exists(file_path):  # 确保文件存在
+                os.remove(file_path)

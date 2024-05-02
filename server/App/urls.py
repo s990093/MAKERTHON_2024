@@ -5,4 +5,5 @@ app_name = "App"
 
 
 urlpatterns = [
-    path("", views.AppAPIView.as_view(), name="AppAPIView")]
+    path("", views.AppAPIView.as_view(), name="AppAPIView")
+    ]
