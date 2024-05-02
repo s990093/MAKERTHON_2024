@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'rest_framework',
 
     # ap
-    "App"
+    "App",
+    "YoloApp"
 ]
 
 MIDDLEWARE = [
