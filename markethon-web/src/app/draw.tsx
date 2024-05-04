@@ -51,7 +51,7 @@ const Darw = () => {
         .catch((error) => {
           console.error("Error fetching data:", error);
         });
-    }, 300);
+    }, 200);
 
     return () => {
       clearInterval(intervalId); // 清除计时器

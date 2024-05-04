@@ -19,6 +19,7 @@ execution_times_queue = mp.Queue()
 # exit_event = threading.Event()
 SCAL =  3
 pix = (640, 480)
+DELAY = 5
 model = YOLO('yolov8s.pt')  # 确保路径正确
 
 image_url = "http://192.168.232.185/capture"  # 确保 URL 是正确的
@@ -117,7 +118,7 @@ def process_result(results, queue):
     # delay execution
     
     if people_count > 2:
-        time.sleep(4)
+        time.sleep(DELAY)
         
 
 
