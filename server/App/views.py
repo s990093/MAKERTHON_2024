@@ -22,12 +22,12 @@ from rich.console import Console
 pretty.install()
 console = Console()
 
-# 加载 YOLOv8 模型
-try:
-    model = YOLO('yolov8s.pt')  # 确保路径正确
-    console.log("yolov8s.pt ok")
-except Exception as e:
-    raise Exception(f"Error loading YOLO model: {str(e)}")
+# # 加载 YOLOv8 模型
+# try:
+#     model = YOLO('yolov8s.pt')  # 确保路径正确
+#     console.log("yolov8s.pt ok")
+# except Exception as e:
+#     raise Exception(f"Error loading YOLO model: {str(e)}")
 
 
 class AppAPIView(APIView):
@@ -35,7 +35,7 @@ class AppAPIView(APIView):
     
     def get(self, request):
         # 获取最新的 PostPhoto 对象
-        latest_photo = PostPhoto.objects.order_by('-id').first()  # 按照 ID 逆序排列，取第一个
+        latest_photo = PostPhoto.objects.order_by('-id').first() 
 
         if not latest_photo:
             return JsonResponse({'error': 'No photos found'}, status=404)
@@ -47,44 +47,33 @@ class AppAPIView(APIView):
         })
     
     def post(self, request, *args, **kwargs):
-        try:
-            if 'file' not in request.FILES:
-                return JsonResponse({'error': 'No file uploaded'}, status=400)
-            
-            uploaded_file = request.FILES['file']
-
-            data = {'photo': uploaded_file}
-
-            serializer = PostPhotoSerializer(data=data)
-            
-            if serializer.is_valid():
-                photo_instance = serializer.save()
-
-                results = model(photo_instance.photo.path)
-                
-                class_names = []
-                for result in results:
-                    class_ids = result.boxes.cls
-                    class_names.extend([model.names[int(cls_id)] for cls_id in class_ids])
-
-                data = {
-                    'file_name': uploaded_file.name,
-                    'file_size': uploaded_file.size,
-                    'file_url': photo_instance.photo.url,
-                    'class_names': class_names,
-                }
-                # print
-                # console.log(data)
-                
-
-                return JsonResponse(data, status=201)
-            
-            console.log(f"Serializer errors: {serializer.errors}")  # 记录验证错误
-            return JsonResponse({'error': serializer.errors}, status=400)
+        people_count = request.POST.get('people_count')
+       
+        console.log(f"people_count -> {people_count}")
+        # return JsonResponse({
+        #     'message': 'Latest photo retrieved successfully',
+        # })
         
-        except Exception as e:
-            console.log(f"Serializer errors: {e}")  # 记录验证错误
-            return JsonResponse({'error': str(e)}, status=500)
+       
+            # rules
+        if people_count > 0:
+            id = 1
+            obj = SolarDeviceData.objects.get(id=id)
+            obj.people_count =people_count
+            
+            if people_count > 2:
+                obj.is_sprinkling = True
+                
+            if obj.is_sprinkling == True:
+                obj.is_sprinkling = False
+                
+            obj.save()
+            
+        return JsonResponse({
+            'message': 'Latest photo retrieved successfully',
+        })
+        
+         
         
         
         

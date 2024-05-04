@@ -31,7 +31,7 @@ CORS_ORIGIN_WHITELIST = [
     'http://0.0.0.0:3000',  # Next.js 開發伺服器
     'http://49.213.238.75:3000',  # 確保包含協議
 ]
-CORS_ORIGIN_ALLOW_ALL = True  # 允許所有域名的跨域請求
+CORS_ORIGIN_ALLOW_ALL = True  
 
 # Application definition
 
