@@ -68,7 +68,7 @@ class AppAPIView(APIView):
             photo_instance = serializer.save()
             
             # 使用 YOLO 进行检测
-            results = model(photo_instance.photo.path, device="mps")  # 使用模型路径
+            results = model(photo_instance.photo.path)  
             
             # 处理结果，获取所需信息
             class_names = []
