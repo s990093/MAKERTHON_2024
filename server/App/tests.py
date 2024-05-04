@@ -55,4 +55,4 @@ class StressTest(unittest.TestCase):
         print(f"Maximum response time: {max_response_time:.2f} seconds")
 
         # 确保没有错误
-        self.assertEqual(total_requests, 100, "Not all requests were sent.")
+        self.assertEqual(total_requests, 200, "Not all requests were sent.")

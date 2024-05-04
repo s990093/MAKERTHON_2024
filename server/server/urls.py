@@ -16,9 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('app/', include('App.urls', namespace='App')),
 
     path('admin/', admin.site.urls),
 ]
+
+if settings.DEBUG:  # 仅在开发环境中提供媒体文件
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
