@@ -74,7 +74,7 @@ class AppAPIView(APIView):
                     'class_names': class_names,
                 }
                 # print
-                console.log(data)
+                # console.log(data)
                 
 
                 return JsonResponse(data, status=201)
