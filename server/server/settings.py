@@ -28,9 +28,11 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 
 CORS_ORIGIN_WHITELIST = [
+    "http://127.0.0.1:8000",
     'http://0.0.0.0:3000',  # Next.js 開發伺服器
     'http://49.213.238.75:3000',  # 確保包含協議
 ]
+
 CORS_ORIGIN_ALLOW_ALL = True  
 
 # Application definition
@@ -173,8 +175,8 @@ API_KEY = '4VGFO2C4IBN542V0DRAIAP7TR6UG1L'
 
 
 
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer',
-    },
-}
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels.layers.InMemoryChannelLayer',
+#     },
+# }

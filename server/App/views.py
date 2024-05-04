@@ -47,13 +47,9 @@ class AppAPIView(APIView):
         })
     
     def post(self, request, *args, **kwargs):
-        people_count = request.POST.get('people_count')
+        people_count = int(request.POST.get('people_count'))
        
         console.log(f"people_count -> {people_count}")
-        # return JsonResponse({
-        #     'message': 'Latest photo retrieved successfully',
-        # })
-        
        
             # rules
         if people_count > 0:
