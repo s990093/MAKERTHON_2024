@@ -10,15 +10,15 @@ class PostPhoto(models.Model):
 
 class SolarDeviceData(models.Model):
     # 太阳能设备的ID
-    device_id = models.IntegerField()  # 如果设备ID与其他模型关联，可改为ForeignKey
+    device_id = models.IntegerField(unique=True)  # 如果设备ID与其他模型关联，可改为ForeignKey
     
     # 记录数据的时间戳
     timestamp = models.DateTimeField(auto_now_add=True)  # 自动记录创建时间
     
     # 太阳能设备相关数据
-    electricity = models.FloatField()  # 电量，浮点数
-    humidity = models.FloatField()  # 湿度，浮点数
-    people_count = models.IntegerField()  # 人数，整数
+    electricity = models.FloatField(default=0.0)  # 电量，浮点数
+    humidity = models.FloatField(default=0)  # 湿度，浮点数
+    people_count = models.IntegerField(default=0)  # 人数，整数
     is_sprinkling = models.BooleanField(default=False)  # 是否灑水，布尔值
     
     def __str__(self):

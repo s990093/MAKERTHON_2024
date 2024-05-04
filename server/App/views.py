@@ -43,7 +43,7 @@ class AppAPIView(APIView):
         # 返回 JSON 响应，包含照片的 URL
         return JsonResponse({
             'message': 'Latest photo retrieved successfully',
-            'photo_url': latest_photo.photo.url  # 访问照片的 URL
+            'photo_url': latest_photo.photo.url 
         })
     
     def post(self, request, *args, **kwargs):
@@ -73,7 +73,7 @@ class AppAPIView(APIView):
                     'file_url': photo_instance.photo.url,
                     'class_names': class_names,
                 }
-                
+                # print
                 console.log(data)
                 
 
