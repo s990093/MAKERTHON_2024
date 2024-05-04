@@ -8,6 +8,7 @@ class StressTest(unittest.TestCase):
     def setUp(self):
         # 设置后端 API 的 URL
         self.api_url = "http://127.0.0.1:8000/app/"  # 修改为后端 API 的地址
+        self.api_url = "http://49.213.238.75:8000/app/"
         self.headers = {"Content-Type": "multipart/form-data"}
 
         # 读取测试图像文件的二进制数据

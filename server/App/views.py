@@ -45,47 +45,38 @@ class AppAPIView(APIView):
         })
     
     def post(self, request, *args, **kwargs):
-        # 检查请求中是否有文件
-
-        
-        if 'file' not in request.FILES:
-            return JsonResponse({'error': 'No file uploaded'}, status=400)
-        
-        # 获取上传的文件
-        uploaded_file = request.FILES['file']
-
-        # 使用序列化器，包含文件数据
-        data = {
-            'photo': uploaded_file,
-            # 如果有其他字段需要添加，可以在这里进行
-        }
-
-        serializer = PostPhotoSerializer(data=data)
-        
-        # 验证和保存
-        if serializer.is_valid():
-            # 保存到模型
-            photo_instance = serializer.save()
+        try:
+            if 'file' not in request.FILES:
+                return JsonResponse({'error': 'No file uploaded'}, status=400)
             
-            # 使用 YOLO 进行检测
-            results = model(photo_instance.photo.path)  
+            uploaded_file = request.FILES['file']
+
+            data = {'photo': uploaded_file}
+
+            serializer = PostPhotoSerializer(data=data)
             
-            # 处理结果，获取所需信息
-            class_names = []
-            for result in results:
-                class_ids = result.boxes.cls
-                class_names.extend([model.names[int(cls_id)] for cls_id in class_ids])
+            if serializer.is_valid():
+                photo_instance = serializer.save()
+
+                results = model(photo_instance.photo.path)
                 
-            data = {
-                'file_name': uploaded_file.name,
-                'file_size': uploaded_file.size,
-                'file_url': photo_instance.photo.url,  
-                'class_names': class_names,
-            }
-            console.log(data)
-            return JsonResponse(data, status=201)
+                class_names = []
+                for result in results:
+                    class_ids = result.boxes.cls
+                    class_names.extend([model.names[int(cls_id)] for cls_id in class_ids])
+
+                data = {
+                    'file_name': uploaded_file.name,
+                    'file_size': uploaded_file.size,
+                    'file_url': photo_instance.photo.url,
+                    'class_names': class_names,
+                }
+
+                return JsonResponse(data, status=201)
+            
+            console.print("Serializer errors: %s", serializer.errors)  # 记录验证错误
+            return JsonResponse({'error': serializer.errors}, status=400)
         
-        # 如果数据无效，返回错误信息
-        return JsonResponse({
-            'error': serializer.errors,
-        }, status=400)
+        except Exception as e:
+            console.print("Exception occurred: %s", e)  # 记录异常
+            return JsonResponse({'error': str(e)}, status=500)
