@@ -25,3 +25,29 @@ body {
     )
     rgb(var(--background-start-rgb));
 } */
+
+@keyframes sprinkling {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+/* 定义灑水效果 */
+.sprinkling-effect {
+  position: absolute; /* 确保其位置正确 */
+  background-color: blue; /* 水滴颜色 */
+  width: 5px; /* 水滴宽度 */
+  height: 40px; /* 水滴高度 */
+  border-radius: 50%; /* 圆形 */
+  animation: sprinkling 1s infinite; /* 应用动画 */
+  animation-delay: 0.5s; /* 动画延迟 */
+}

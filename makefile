@@ -1,1 +1,2 @@
-source .venv/bin/activate
+show:
+	source .venv/bin/activate && python camera.py

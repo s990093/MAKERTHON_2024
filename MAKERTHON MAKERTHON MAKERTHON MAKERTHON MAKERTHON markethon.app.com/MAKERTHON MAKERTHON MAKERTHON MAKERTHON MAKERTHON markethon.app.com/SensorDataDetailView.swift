@@ -27,8 +27,9 @@ struct SensorDataDetailView: View {
                             VStack {
                                 Text("霧化")
                                     .font(.headline)  // 粗體標題
-                                Text(sensor.is_sprinkling ? "開啟" : "關閉")  // 布尔状态显示
-                                    .font(.body)  // 正文字体
+                                Circle()
+                                    .fill(sensor.is_sprinkling ? Color.green : Color.red)  // 綠色開啟，紅色關閉
+                                    .frame(width: 30, height: 30)  // 調整圓形大小
                             }
                             .frame(maxWidth: 100, maxHeight: 60)
                             .padding()  // 卡片內部的間隔
@@ -41,7 +42,7 @@ struct SensorDataDetailView: View {
                         VStack {
                             Text("電力:")
                                 .font(.headline)  // 粗體標題
-                            Text("\(sensor.electricity, specifier: "%.2f") kWh")  // 電力數值，保留兩位小數
+                            Text("\(sensor.electricity, specifier: "%.2f") Wh")  // 電力數值，保留兩位小數
                                 .font(.body)  // 正文字體
                         }
                         .frame(maxWidth: 100, maxHeight: 60)

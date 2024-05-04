@@ -1,16 +1,18 @@
 import Image from "next/image";
 import PhotoComponent from "./component/photo";
+import Darw from "./draw";
 
 export default function Home() {
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       <header className="w-full text-center py-6 bg-blue-500 text-white">
-        <h1 className="text-3xl font-bold">Photo Gallery</h1>
+        <h1 className="text-3xl font-bold">灑水模擬</h1>
       </header>
 
-      <section className="flex flex-col items-center justify-center w-full p-6 bg-white rounded-lg shadow-lg">
-        <PhotoComponent /> {/* 使用你的組件 */}
-      </section>
+      {/* Container for centering the content */}
+      <div className="flex-grow flex flex-col items-center justify-center bg-gray-100">
+        <Darw />
+      </div>
 
       <footer className="w-full text-center py-4 bg-gray-200">
         <p className="text-sm text-gray-600">
