@@ -8,9 +8,29 @@ class PostPhoto(models.Model):
     def __str__(self):
         return f"Photo: {self.photo.name}"
 
-
+class SolarDeviceData(models.Model):
+    # 太阳能设备的ID
+    device_id = models.IntegerField()  # 如果设备ID与其他模型关联，可改为ForeignKey
+    
+    # 记录数据的时间戳
+    timestamp = models.DateTimeField(auto_now_add=True)  # 自动记录创建时间
+    
+    # 太阳能设备相关数据
+    electricity = models.FloatField()  # 电量，浮点数
+    humidity = models.FloatField()  # 湿度，浮点数
+    people_count = models.IntegerField()  # 人数，整数
+    is_sprinkling = models.BooleanField(default=False)  # 是否灑水，布尔值
+    
+    def __str__(self):
+        return f"Device {self.device_id} Data at {self.timestamp}"
 # 序列化类
 class PostPhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = PostPhoto
         fields = ['photo'] 
+
+
+class SolarDeviceDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SolarDeviceData
+        fields = ['is_sprinkling'] 

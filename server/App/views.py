@@ -1,5 +1,6 @@
 import json
 import os
+from django.shortcuts import get_object_or_404
 import torch
 import io
 from django.http import JsonResponse
@@ -8,6 +9,7 @@ from rest_framework.response import Response
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework import status
 
 from ultralytics import YOLO
 from .models import *
@@ -71,6 +73,9 @@ class AppAPIView(APIView):
                     'file_url': photo_instance.photo.url,
                     'class_names': class_names,
                 }
+                
+                console.log(data)
+                
 
                 return JsonResponse(data, status=201)
             
@@ -80,3 +85,27 @@ class AppAPIView(APIView):
         except Exception as e:
             console.log(f"Serializer errors: {e}")  # 记录验证错误
             return JsonResponse({'error': str(e)}, status=500)
+        
+        
+        
+        
+class SolarDeviceAPIView(APIView):
+        def get(self, request, id: int, *args, **kwargs):
+            # 获取与特定设备 ID 相关的数据
+            try:
+                # 获取最新的设备数据
+                device_data = SolarDeviceData.objects.filter(device_id=id).order_by('-timestamp').first()
+
+                if not device_data:
+                    # 如果找不到数据，返回 404 错误
+                    return Response({"error": "No data found for this device"}, status=status.HTTP_404_NOT_FOUND)
+
+                # 使用序列化器将数据转换为 JSON
+                serializer = SolarDeviceDataSerializer(device_data)
+                
+                # 返回 JSON 响应
+                return Response(serializer.data, status=status.HTTP_200_OK)
+
+            except Exception as e:
+                console.log(str(e))
+                return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
