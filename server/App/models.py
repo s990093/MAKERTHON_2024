@@ -34,3 +34,10 @@ class SolarDeviceDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = SolarDeviceData
         fields = ['is_sprinkling'] 
+
+
+
+class IpadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SolarDeviceData
+        fields =  '__all__'

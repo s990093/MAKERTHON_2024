@@ -109,3 +109,21 @@ class SolarDeviceAPIView(APIView):
             except Exception as e:
                 console.log(str(e))
                 return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            
+            
+            
+class IpadAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        try:
+            device_data = SolarDeviceData.objects.all().order_by("timestamp").values()
+
+            if not device_data.exists():
+                return Response({"error": "No data found for this device"}, status=status.HTTP_404_NOT_FOUND)
+
+            serializer = IpadSerializer(device_data, many=True)
+            return Response(data=serializer.data)
+
+        except Exception as e:
+            console.log(f"An error occurred: {str(e)}")
+            return Response({"error": "Internal server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            

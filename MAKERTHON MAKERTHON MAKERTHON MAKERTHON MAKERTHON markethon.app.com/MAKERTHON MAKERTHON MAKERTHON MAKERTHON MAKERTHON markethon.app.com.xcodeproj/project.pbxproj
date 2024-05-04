@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D9DECCE52BDCFCBC00E468C1 /* RescueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DECCE42BDCFCBC00E468C1 /* RescueView.swift */; };
+		D9BF696E2BE6223600F01E1A /* Other.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BF696D2BE6223600F01E1A /* Other.swift */; };
+		D9BF69702BE6259700F01E1A /* SensorDataDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BF696F2BE6259700F01E1A /* SensorDataDetailView.swift */; };
+		D9DECCE52BDCFCBC00E468C1 /* SensorDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DECCE42BDCFCBC00E468C1 /* SensorDataView.swift */; };
 		D9EDAD062BDB71B300F0160D /* MAKERTHON_MAKERTHON_MAKERTHON_MAKERTHON_MAKERTHON_markethon_app_comApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EDAD052BDB71B300F0160D /* MAKERTHON_MAKERTHON_MAKERTHON_MAKERTHON_MAKERTHON_markethon_app_comApp.swift */; };
 		D9EDAD082BDB71B300F0160D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EDAD072BDB71B300F0160D /* ContentView.swift */; };
 		D9EDAD0A2BDB71B500F0160D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D9EDAD092BDB71B500F0160D /* Assets.xcassets */; };
@@ -18,7 +20,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		D9DECCE42BDCFCBC00E468C1 /* RescueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RescueView.swift; sourceTree = "<group>"; };
+		D9BF696D2BE6223600F01E1A /* Other.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Other.swift; sourceTree = "<group>"; };
+		D9BF696F2BE6259700F01E1A /* SensorDataDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorDataDetailView.swift; sourceTree = "<group>"; };
+		D9DECCE42BDCFCBC00E468C1 /* SensorDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorDataView.swift; sourceTree = "<group>"; };
 		D9EDAD022BDB71B300F0160D /* MAKERTHON MAKERTHON MAKERTHON MAKERTHON MAKERTHON markethon.app.com.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MAKERTHON MAKERTHON MAKERTHON MAKERTHON MAKERTHON markethon.app.com.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9EDAD052BDB71B300F0160D /* MAKERTHON_MAKERTHON_MAKERTHON_MAKERTHON_MAKERTHON_markethon_app_comApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MAKERTHON_MAKERTHON_MAKERTHON_MAKERTHON_MAKERTHON_markethon_app_comApp.swift; sourceTree = "<group>"; };
 		D9EDAD072BDB71B300F0160D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -64,8 +68,10 @@
 				D9EDAD052BDB71B300F0160D /* MAKERTHON_MAKERTHON_MAKERTHON_MAKERTHON_MAKERTHON_markethon_app_comApp.swift */,
 				D9EDAD072BDB71B300F0160D /* ContentView.swift */,
 				D9EDAD142BDB738B00F0160D /* API.swift */,
+				D9BF696F2BE6259700F01E1A /* SensorDataDetailView.swift */,
 				D9EDAD182BDB73C900F0160D /* Model.swift */,
-				D9DECCE42BDCFCBC00E468C1 /* RescueView.swift */,
+				D9DECCE42BDCFCBC00E468C1 /* SensorDataView.swift */,
+				D9BF696D2BE6223600F01E1A /* Other.swift */,
 				D9EDAD092BDB71B500F0160D /* Assets.xcassets */,
 				D9EDAD0B2BDB71B500F0160D /* Preview Content */,
 			);
@@ -156,9 +162,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D9BF696E2BE6223600F01E1A /* Other.swift in Sources */,
 				D9EDAD082BDB71B300F0160D /* ContentView.swift in Sources */,
 				D9EDAD152BDB738B00F0160D /* API.swift in Sources */,
-				D9DECCE52BDCFCBC00E468C1 /* RescueView.swift in Sources */,
+				D9DECCE52BDCFCBC00E468C1 /* SensorDataView.swift in Sources */,
+				D9BF69702BE6259700F01E1A /* SensorDataDetailView.swift in Sources */,
 				D9EDAD062BDB71B300F0160D /* MAKERTHON_MAKERTHON_MAKERTHON_MAKERTHON_MAKERTHON_markethon_app_comApp.swift in Sources */,
 				D9EDAD192BDB73C900F0160D /* Model.swift in Sources */,
 			);

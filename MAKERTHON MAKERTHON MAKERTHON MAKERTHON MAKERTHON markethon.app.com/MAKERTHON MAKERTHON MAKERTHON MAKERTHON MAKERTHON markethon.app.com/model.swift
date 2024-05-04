@@ -12,3 +12,13 @@ struct User: Codable {
     let name: String
     let email: String
 }
+
+struct SensorData: Codable {
+    let id: Int
+    let device_id: Int
+    let timestamp: String
+    let electricity: Double
+    let humidity: Double
+    let people_count: Int
+    let is_sprinkling: Bool
+}
