@@ -55,13 +55,13 @@ class AppAPIView(APIView):
         if people_count > 0:
             id = 1
             obj = SolarDeviceData.objects.get(id=id)
-            obj.people_count =people_count
+            obj.people_count = people_count
             
             if people_count > 2:
                 obj.is_sprinkling = True
-                
-            if obj.is_sprinkling == True:
-                obj.is_sprinkling = False
+            else:
+                if obj.is_sprinkling == True:
+                    obj.is_sprinkling = False
                 
             obj.save()
             
