@@ -10,7 +10,7 @@ interface PhotoData {
 
 const PhotoComponent: React.FC = () => {
   let baseUrl = "http://49.213.238.75:8000";
-  let delay = 500;
+  let delay = 100;
   let PIX = 400;
   const [photo, setPhoto] = useState<PhotoData | null>(null);
   const [refresh, setRefresh] = useState(false);

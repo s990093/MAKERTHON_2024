@@ -16,6 +16,7 @@ struct User: Codable {
 struct SensorData: Codable {
     let id: Int
     let device_id: Int
+    let location: String
     let timestamp: String
     let electricity: Double
     let humidity: Double

@@ -26,6 +26,7 @@ SECRET_KEY = 'django-insecure-i$3i#v$0!$g(ry(@v7b2v-bydv=h=!8#i+f%y#%#6+neyfu2te
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
+
 CORS_ORIGIN_WHITELIST = [
     'http://0.0.0.0:3000',  # Next.js 開發伺服器
     'http://49.213.238.75:3000',  # 確保包含協議
@@ -34,6 +35,7 @@ CORS_ORIGIN_ALLOW_ALL = True  # 允許所有域名的跨域請求
 
 # Application definition
 
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -41,12 +43,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
     'rest_framework',
     'corsheaders',
-
+    
+    
     # ap
     "App",
-    "YoloApp"
+    "YoloApp",
+    "Web"
 ]
 
 MIDDLEWARE = [
@@ -77,6 +82,8 @@ TEMPLATES = [
         },
     },
 ]
+
+ASGI_APPLICATION = 'server.asgi.application' 
 
 WSGI_APPLICATION = 'server.wsgi.application'
 
@@ -163,3 +170,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # key
 API_KEY = '4VGFO2C4IBN542V0DRAIAP7TR6UG1L'
+
+
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
+}
