@@ -10,6 +10,8 @@ interface PhotoData {
 
 const PhotoComponent: React.FC = () => {
   let baseUrl = "http://49.213.238.75:8000";
+  let delay = 500;
+  let PIX = 400;
   const [photo, setPhoto] = useState<PhotoData | null>(null);
   const [refresh, setRefresh] = useState(false);
 
@@ -18,8 +20,8 @@ const PhotoComponent: React.FC = () => {
       try {
         const response = await fetch(`${baseUrl}/app/`);
         const data: PhotoData = await response.json();
+        // change the data
         data.photo_url = `${baseUrl}${data.photo_url}`;
-        console.log(data.photo_url);
         setPhoto(data);
       } catch (error) {
         console.error("Error fetching photo:", error);
@@ -30,20 +32,20 @@ const PhotoComponent: React.FC = () => {
 
     const interval = setInterval(() => {
       setRefresh(!refresh);
-    }, 5000);
+    }, delay);
 
     return () => clearInterval(interval);
-  }, [baseUrl, refresh]);
+  }, [baseUrl, delay, refresh]);
 
   return (
     <div>
       {photo ? (
         <Image
+          loader={() => photo.photo_url}
           src={photo.photo_url}
-          alt="Random Photo"
-          width={400} // 圖片寬度
-          height={300} // 圖片高度
-          layout="responsive" // 可根據容器尺寸自動調整
+          width={PIX}
+          height={PIX}
+          alt={""}
         />
       ) : (
         <p>Loading photo...</p>
