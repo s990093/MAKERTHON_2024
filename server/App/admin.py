@@ -11,4 +11,5 @@ class App(admin.ModelAdmin):
 
 @admin.register(SolarDeviceData)
 class SolarDeviceDataApp(admin.ModelAdmin):
-    pass
+    list_display = ('device_id', 'electricity', 'location', 'is_sprinkling') 
+
