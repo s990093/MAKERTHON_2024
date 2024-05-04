@@ -74,39 +74,39 @@ const Darw = () => {
       }}
     >
       {/* 1 */}
-      <Positioned top={180} left={415}>
+      <Positioned top={250} left={530}>
         <BlueBall isSprinkling={isSprinkling} />
         {isSprinkling && <span className="sprinkling-effect" />}{" "}
         {/* 添加灑水效果 */}
       </Positioned>
-      <Positioned top={180} left={550}>
+      <Positioned top={250} left={595}>
         <BlueBall isSprinkling={isSprinkling} />
         {isSprinkling && <span className="sprinkling-effect" />}{" "}
         {/* 添加灑水效果 */}
       </Positioned>
 
-      <Positioned top={180} left={680}>
+      <Positioned top={250} left={725}>
         <BlueBall isSprinkling={isSprinkling} />
         {isSprinkling && <span className="sprinkling-effect" />}
       </Positioned>
-      <Positioned top={265} left={825}>
+      <Positioned top={335} left={945}>
         <BlueBall isSprinkling={isSprinkling} />
         {isSprinkling && <span className="sprinkling-effect" />}
       </Positioned>
       {/* 3 */}
-      <Positioned top={370} left={510}>
+      <Positioned top={435} left={630}>
         <BlueBall isSprinkling={false} />
       </Positioned>
       {/* 4 */}
-      <Positioned top={370} left={710}>
+      <Positioned top={435} left={820}>
         <BlueBall isSprinkling={false} />
       </Positioned>
       {/* 5 */}
-      <Positioned top={555} left={480}>
+      <Positioned top={623} left={530}>
         <BlueBall isSprinkling={false} />
       </Positioned>
       {/* 6 */}
-      <Positioned top={555} left={610}>
+      <Positioned top={623} left={725}>
         <BlueBall isSprinkling={false} />
       </Positioned>
     </div>
