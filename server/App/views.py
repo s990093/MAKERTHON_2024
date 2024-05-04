@@ -74,9 +74,9 @@ class AppAPIView(APIView):
 
                 return JsonResponse(data, status=201)
             
-            console.print("Serializer errors: %s", serializer.errors)  # 记录验证错误
+            console.log(f"Serializer errors: {serializer.errors}")  # 记录验证错误
             return JsonResponse({'error': serializer.errors}, status=400)
         
         except Exception as e:
-            console.print("Exception occurred: %s", e)  # 记录异常
+            console.log(f"Serializer errors: {e}")  # 记录验证错误
             return JsonResponse({'error': str(e)}, status=500)
