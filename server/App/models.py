@@ -16,6 +16,7 @@ class SolarDeviceData(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)  # 自动记录创建时间
     
     # 太阳能设备相关数据
+    location = models.CharField(default="建功高科大", max_length=50)
     electricity = models.FloatField(default=0.0)  # 电量，浮点数
     humidity = models.FloatField(default=0)  # 湿度，浮点数
     people_count = models.IntegerField(default=0)  # 人数，整数
