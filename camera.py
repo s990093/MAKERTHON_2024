@@ -146,6 +146,8 @@ def yolo_process():
             image_bytes = np.asarray(bytearray(response.content), dtype=np.uint8)
            
             frame = cv.imdecode(image_bytes, cv.IMREAD_COLOR)
+            
+            # frame_flipped = cv.flip(frame, 0)
 
             # Resize the frame
             frame_resized = cv.resize(frame, pix)  # Adjust size as needed

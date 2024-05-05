@@ -39,7 +39,14 @@ const BlueBall: React.FC<BlueBallProps> = ({ isSprinkling }) => {
 const Darw = () => {
   const [isSprinkling, setIsSprinkling] = useState(false); // 存储 API 数据
 
-  const [audio] = useState(new Audio("/music.mp3")); // 创建 Audio 对象
+  const [audio, setAudio] = useState<null | HTMLAudioElement>(null); // 类型定义
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const newAudio = new Audio("/music.mp3");
+      setAudio(newAudio);
+    }
+  }, []); // 只在组件挂载后执行一次
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -59,10 +66,12 @@ const Darw = () => {
   }, []); // 只在组件挂载时设置一次计时器
 
   useEffect(() => {
-    if (isSprinkling) {
-      audio.play(); // 播放音效
-    } else {
-      audio.pause(); // 暂停音效
+    if (audio) {
+      if (isSprinkling) {
+        audio.play(); // 播放音效
+      } else {
+        audio.pause(); // 暂停音效
+      }
     }
   }, [isSprinkling, audio]);
 
