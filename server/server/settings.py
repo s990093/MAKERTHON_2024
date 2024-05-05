@@ -54,7 +54,8 @@ INSTALLED_APPS = [
     # ap
     "App",
     "YoloApp",
-    "Web"
+    "Web",
+    "TestApp"
 ]
 
 MIDDLEWARE = [
