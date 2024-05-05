@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'channels',
     'rest_framework',
     'corsheaders',
-    
+    'drf_yasg',
+
     
     # ap
     "App",
