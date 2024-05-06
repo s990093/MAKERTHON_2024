@@ -46,7 +46,7 @@ const Darw = () => {
       const newAudio = new Audio("/music.mp3");
       setAudio(newAudio);
     }
-  }, []); // 只在组件挂载后执行一次
+  }, []);
 
   useEffect(() => {
     const intervalId = setInterval(() => {

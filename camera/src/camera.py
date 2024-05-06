@@ -1,12 +1,9 @@
-import json
-import threading
 import cv2 as cv
 import numpy as np
 import requests
 from ultralytics import YOLO
 import time
 import multiprocessing as mp
-import matplotlib.pyplot as plt
 
 # rich
 from rich import pretty
@@ -16,6 +13,7 @@ from rich.console import Console
 pretty.install()
 console = Console()
 execution_times_queue = mp.Queue()
+
 # exit_event = threading.Event()
 SCAL =  3
 pix = (640, 480)
@@ -71,7 +69,7 @@ def send_message_to_django(queue):
             
             
             # Log the status code
-            # console.log(f"Sent data to Django, status code -> {response.status_code}")
+            console.log(f"Sent data to Django, status code -> {response.status_code}")
 
         time.sleep(0.05)  # Wait before checking the queue again
 
@@ -125,7 +123,6 @@ def process_result(results, queue):
 def yolo_process():
     # Create a queue for sending data to Django
     queue = mp.Queue()
-
     # Start the process for sending data
     django_sender = mp.Process(target=send_message_to_django, args=(queue,))
     django_sender.start()
