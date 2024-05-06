@@ -1,15 +1,15 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var users: [User] = []
+//    @State private var users: [User] = []
     @State private var isLoading = false
     
     var body: some View {
         TabView {
-            RescueView()
+            SensorDataView()
                 .tabItem {
                     Image(systemName: "1.circle")
-                    Text("求助")
+                    Text("資訊")
                 }
             
             SecondView()
@@ -29,29 +29,23 @@ struct ContentView: View {
 //        }
     }
     
-    func fetchUsers() {
-        isLoading = true
-        UserAPI.shared.getUsers { users, error in
-            DispatchQueue.main.async {
-                isLoading = false
-                if let users = users {
-                    self.users = users
-                } else if let error = error {
-                    // Handle error
-                    print("Failed to fetch users: \(error.localizedDescription)")
-                }
-            }
-        }
-    }
+//    func fetchUsers() {
+//        isLoading = true
+//        UserAPI.shared.getUsers { users, error in
+//            DispatchQueue.main.async {
+//                isLoading = false
+//                if let users = users {
+//                    self.users = users
+//                } else if let error = error {
+//                    // Handle error
+//                    print("Failed to fetch users: \(error.localizedDescription)")
+//                }
+//            }
+//        }
+//    }
 }
 
 
-struct FirstView: View {
-    var body: some View {
-        Text("First View")
-            .font(.largeTitle)
-    }
-}
 
 struct SecondView: View {
     var body: some View {

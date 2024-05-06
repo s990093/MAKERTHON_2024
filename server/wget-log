@@ -1,0 +1,5 @@
+--2024-05-02 10:45:03--  https://github.com/ultralytics/yolov5/releases/download/v6.0/yolov5s.pt
+Resolving github.com (github.com)... 20.27.177.113
+Connecting to github.com (github.com)|20.27.177.113|:443... connected.
+OpenSSL: error:0A000126:SSL routines::unexpected eof while reading
+Unable to establish SSL connection.

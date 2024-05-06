@@ -27,8 +27,16 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
+CORS_ORIGIN_WHITELIST = [
+    "http://127.0.0.1:8000",
+    'http://0.0.0.0:3000',  # Next.js 開發伺服器
+    'http://49.213.238.75:3000',  # 確保包含協議
+]
+
+CORS_ORIGIN_ALLOW_ALL = True  
 
 # Application definition
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -37,10 +45,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
     'rest_framework',
+    'corsheaders',
+    'drf_yasg',
 
+    
     # ap
-    "App"
+    "App",
+    "YoloApp",
+    "Web",
+    "TestApp"
 ]
 
 MIDDLEWARE = [
@@ -51,6 +66,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'server.urls'
@@ -70,6 +86,8 @@ TEMPLATES = [
         },
     },
 ]
+
+ASGI_APPLICATION = 'server.asgi.application' 
 
 WSGI_APPLICATION = 'server.wsgi.application'
 
@@ -156,3 +174,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # key
 API_KEY = '4VGFO2C4IBN542V0DRAIAP7TR6UG1L'
+
+
+
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels.layers.InMemoryChannelLayer',
+#     },
+# }

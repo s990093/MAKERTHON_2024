@@ -69,3 +69,41 @@ func postToServer(isclick: Bool) {
         }
     }.resume()
 }
+
+class SensorDataService {
+    let apiUrl = "http://49.213.238.75:8000/app/ipad/"
+    
+    func fetchSensorData(completion: @escaping (Result<[SensorData], Error>) -> Void) {
+        guard let url = URL(string: apiUrl) else {
+            completion(.failure(NSError(domain: "Invalid URL", code: 1, userInfo: nil)))
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                completion(.failure(NSError(domain: "Invalid response", code: 2, userInfo: nil)))
+                return
+            }
+            
+            guard let data = data else {
+                completion(.failure(NSError(domain: "No data", code: 3, userInfo: nil)))
+                return
+            }
+            
+            do {
+                let decoder = JSONDecoder()
+                let sensorData = try decoder.decode([SensorData].self, from: data)
+                completion(.success(sensorData))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+        
+        task.resume()
+    }
+}
