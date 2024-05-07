@@ -6,4 +6,4 @@ camera:
 
 
 run:
-	source .venv/bin/activate && server/python manage.py 0.0.0.0:8000
+	source .venv/bin/activate &&  cd server && python manage.py runserver 0.0.0.0:8000
