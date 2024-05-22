@@ -18,7 +18,7 @@ execution_times_queue = mp.Queue()
 SCAL =  3
 pix = (640, 480)
 DELAY = 5
-model = YOLO('yolov8s.pt')  # 确保路径正确
+# model = YOLO('yolov8s.pt')  # 确保路径正确
 
 image_url = "http://192.168.232.185/capture"  # 确保 URL 是正确的
 
@@ -120,37 +120,41 @@ def process_result(results, queue):
         
 
 
-def yolo_process():
+def yolo_process(model, rtsp_url):
     # Create a queue for sending data to Django
-    queue = mp.Queue()
-    # Start the process for sending data
-    django_sender = mp.Process(target=send_message_to_django, args=(queue,))
-    django_sender.start()
+    # queue = mp.Queue()
+    # # Start the process for sending data
+    # django_sender = mp.Process(target=send_message_to_django, args=(queue,))
+    # django_sender.start()
+    capture = cv.VideoCapture(rtsp_url)
+    capture.set(cv.CAP_PROP_BUFFERSIZE, 1)  # 设置缓冲区大小为 1
+    capture.set(cv.CAP_PROP_FPS, 100)  # 设置帧率
     
+    if not capture.isOpened():
+        print("Failed to open RTSP stream.")
+        return
+
+
     try:
         while True:
             start_time = time.time()
 
             # Fetch image from the specified URL
-            response = requests.get(image_url, stream=True, timeout=30) 
+            res, frame = capture.read()
             
-            if response.status_code != 200:
-                print(f"Unexpected status code -> {response.status_code}")
-                time.sleep(1)  # Wait before retrying
-                continue
+            if not res:
+                break
 
+            # cv.imshow("Video", frame)
+         
             # Convert to OpenCV format
-            image_bytes = np.asarray(bytearray(response.content), dtype=np.uint8)
            
-            frame = cv.imdecode(image_bytes, cv.IMREAD_COLOR)
-            
             # frame_flipped = cv.flip(frame, 0)
 
             # Resize the frame
-            frame_resized = cv.resize(frame, pix)  # Adjust size as needed
 
             # Run YOLO detection
-            results = model(frame_resized, stream=False, device = "mps")
+            results = model(frame, stream=False, device = "mps")
 
             # Draw annotated results
             annotated_frame = results[0].plot()
@@ -159,10 +163,10 @@ def yolo_process():
             # flipped_frame = cv.flip(annotated_frame, 0)  # Check this operation for errors
 
             # Resize for display (three times larger)
-            display_frame = cv.resize(annotated_frame, (pix[0] * SCAL, pix[1] * SCAL))  # Ensure resizing works
+            # display_frame = cv.resize(annotated_frame, (pix[0] * SCAL, pix[1] * SCAL))  # Ensure resizing works
 
             # Display the frame
-            cv.imshow("YOLO Image Stream", display_frame)
+            cv.imshow("YOLO Image Stream", annotated_frame)
 
 
             # Calculate loop execution time
@@ -172,7 +176,7 @@ def yolo_process():
             print(f"Execution time: {execution_time:.2f} seconds")
 
             # Process results and send to Django via the queue
-            process_result(results, queue)
+            # process_result(results, queue)
             
             
             if cv.waitKey(1) & 0xFF == ord('q'):  # Ensure this condition doesn't cause early exit
@@ -181,7 +185,7 @@ def yolo_process():
 
     finally:
         cv.destroyAllWindows()  # Close OpenCV windows
-        django_sender.terminate()  # Terminate the Django sender process
+        # django_sender.terminate()  # Terminate the Django sender process
 
         
 

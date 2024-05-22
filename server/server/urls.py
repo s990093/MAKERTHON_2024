@@ -40,11 +40,12 @@ openapi.Info(
 urlpatterns = [
     re_path('app/', include('App.urls', namespace='App')),
     re_path('test/', include('TestApp.urls', namespace='TestApp')),
+    re_path('web/', include('Web.urls', namespace='Web')),
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     re_path('admin/', admin.site.urls),
 ]
 
-if settings.DEBUG:  # 仅在开发环境中提供媒体文件
+if settings.DEBUG: 
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -182,3 +182,9 @@ API_KEY = '4VGFO2C4IBN542V0DRAIAP7TR6UG1L'
 #         'BACKEND': 'channels.layers.InMemoryChannelLayer',
 #     },
 # }
+
+MQTT_SERVER = '889b3e962de249669b98e8b986e948eb.s1.eu.hivemq.cloud'
+MQTT_PORT = 8884
+MQTT_KEEPALIVE = 60
+MQTT_USER = 'client_iot_0515'
+MQTT_PASSWORD = 'client_iot_0515A'

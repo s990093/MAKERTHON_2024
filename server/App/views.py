@@ -49,7 +49,7 @@ class AppAPIView(APIView):
     def post(self, request, *args, **kwargs):
         people_count = int(request.POST.get('people_count'))
        
-        console.log(f"people_count -> {people_count}")
+        console.print(f"people_count -> {people_count}")
        
             # rules
         if people_count > 0:
@@ -109,6 +109,6 @@ class IpadAPIView(APIView):
             return Response(data=serializer.data)
 
         except Exception as e:
-            console.log(f"An error occurred: {str(e)}")
+            console.print_exception(e)
             return Response({"error": "Internal server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             
