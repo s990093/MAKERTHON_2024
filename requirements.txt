@@ -17,7 +17,6 @@ click==8.1.7
 constantly==23.10.4
 contourpy==1.2.1
 coreapi==2.3.3
-coremltools==7.2
 coreschema==0.0.4
 cryptography==42.0.5
 cycler==0.12.1
