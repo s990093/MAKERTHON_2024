@@ -39,18 +39,17 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 
 INSTALLED_APPS = [
+    'daphne',
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'channels',
     'rest_framework',
     'corsheaders',
     'drf_yasg',
-
-    
     # ap
     "App",
     "YoloApp",
@@ -87,9 +86,10 @@ TEMPLATES = [
     },
 ]
 
-ASGI_APPLICATION = 'server.asgi.application' 
 
 WSGI_APPLICATION = 'server.wsgi.application'
+
+ASGI_APPLICATION = 'server.asgi.application'
 
 
 # Database
@@ -176,12 +176,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 API_KEY = '4VGFO2C4IBN542V0DRAIAP7TR6UG1L'
 
 
-
-# CHANNEL_LAYERS = {
-#     'default': {
-#         'BACKEND': 'channels.layers.InMemoryChannelLayer',
-#     },
-# }
+ # 设置ASGI应用
+ 
+ # 设置通道层的通信后台 - 本地测试用
+CHANNEL_LAYERS = {
+     "default": {
+         "BACKEND": "channels.layers.InMemoryChannelLayer"
+     }
+}
 
 MQTT_SERVER = '889b3e962de249669b98e8b986e948eb.s1.eu.hivemq.cloud'
 MQTT_PORT = 8884

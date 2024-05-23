@@ -18,17 +18,6 @@ console = Console()
 
 
 
-model = YOLO("yolov8n.pt")
-
-# Export the model to CoreML format
-model.export(format="coreml")  # creates 'yolov8n.mlpackage'
-
-# Load the exported CoreML model
-coreml_model = YOLO("yolov8n.mlpackage")
-
-# Run inference
-# results = coreml_model("https://ultralytics.com/images/bus.jpg")
-
 
 
 @click.command()
@@ -37,7 +26,21 @@ coreml_model = YOLO("yolov8n.mlpackage")
 @click.option('--port', default=8000, help='Port to bind.', type=int)
 def main(use_device, ip, port):
     # For example, you might want to call a function like run_camera(use_device, ip, port)
+    
+    # model = YOLO("yolov8n.pt")
+
+    # Export the model to CoreML format
+    # model.export(format="coreml")  # creates 'yolov8n.mlpackage'
+
+    # Load the exported CoreML model
+
+    # Run inference
+    # results = coreml_model("https://ultralytics.com/images/bus.jpg")
+
+    coreml_model = YOLO("yolov8n.mlpackage")
+
     rtsp_url = "rtsp://172.20.10.2:554"
+    
     conf = {
             "FRAME_MAX_COUNT": 12,
             "FPS": 30

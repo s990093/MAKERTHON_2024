@@ -1,44 +1,32 @@
-# myapp/consumers.py
+# consumers.py
+
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
-from django.core.files.uploadedfile import InMemoryUploadedFile
-from django.core.files.base import ContentFile
-import base64
-from django.http import JsonResponse
+from asgiref.sync import async_to_sync
 
-from server.App.models import PostPhotoSerializer
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 
-class FileUploadConsumer(AsyncWebsocketConsumer):
+class YourConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        await self.accept()  # 接受连接
-    
+        await self.channel_layer.group_add(
+            "test",
+            self.channel_name
+        )
+        await self.accept()
+
     async def disconnect(self, close_code):
-        pass
+        await self.channel_layer.group_discard(
+            "test",
+            self.channel_name
+        )
 
-    async def receive(self, text_data=None, bytes_data=None):
-        # 检查是否接收了文件数据
-        if bytes_data:  # 如果接收到字节数据
-            filename = "uploaded_file.jpg"  # 可以动态设置
-            in_memory_file = InMemoryUploadedFile(
-                file=ContentFile(bytes_data),
-                field_name=None,
-                name=filename,
-                content_type='image/jpeg',
-                size=len(bytes_data),
-                charset=None
-            )
+    async def receive(self, text_data):
+        data = json.loads(text_data)
+        await self.send(text_data=json.dumps({
+            'message': '收到消息'
+        }))
 
-            data = {'photo': in_memory_file}
-            serializer = PostPhotoSerializer(data=data)  # 使用适当的序列化器
-
-            if serializer.is_valid():
-                serializer.save()  # 保存序列化的数据
-                response = {'status': 'success', 'message': 'File uploaded'}
-            else:
-                response = {'status': 'error', 'message': 'Invalid data'}
-
-            # 发送响应
-            await self.send(text_data=json.dumps(response))
-        else:
-            # 没有文件数据
-            await self.send(text_data=json.dumps({'status': 'error', 'message': 'No file uploaded'}))
+    async def send_person_notification(self, event):
+        message = event['message']
+        await self.send(text_data=json.dumps(message))

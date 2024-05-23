@@ -10,7 +10,6 @@ __all__ = ['yolo_process']
 
 
 
-
 def capture_frames(rtsp_url, queue, frame_count, conf:dict):
     capture = cv.VideoCapture(rtsp_url)
     capture.set(cv.CAP_PROP_BUFFERSIZE, 1)
@@ -63,7 +62,7 @@ def process_frames(model, queue, frame_count):
 
                 # Run YOLO detection
                 # results = model(frame, stream=False, device="mps")
-                results = model(frame, stream=False, device="mps")
+                results = model(frame)
 
                 # Draw annotated results
                 annotated_frame = results[0].plot()
@@ -83,6 +82,13 @@ def process_frames(model, queue, frame_count):
         cv.destroyAllWindows()
 
 def yolo_process(model, rtsp_url,conf: dict):
+    """_summary_
+
+    Args:
+        model (_type_): _description_
+        rtsp_url (_type_): _description_
+        conf (dict): _description_
+    """
     # Create a queue for sending data between processes
     queue = mp.Queue()
     frame_count = mp.Value('i', 0)  # Shared counter for frame count

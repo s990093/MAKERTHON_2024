@@ -10,8 +10,12 @@ from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import status
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
 
 from ultralytics import YOLO
+
+from Web.consumers import YourConsumer
 from .models import *
 
 # rich
@@ -34,18 +38,27 @@ class AppAPIView(APIView):
     parser_classes = (MultiPartParser, FormParser)
     
     def get(self, request):
-        # 获取最新的 PostPhoto 对象
-        latest_photo = PostPhoto.objects.order_by('-id').first() 
 
-        if not latest_photo:
-            return JsonResponse({'error': 'No photos found'}, status=404)
+    #     # 调用 YourConsumer 中的 send_person_notification 方法发送通知给订阅者
+    #     # 创建 YourConsumer 实例
+        
+    #     # 调用 send_person_notification 方法，将识别到的人数作为参数传递
+    #     number_of_people = 5
 
-        # 返回 JSON 响应，包含照片的 URL
-        return JsonResponse({
-            'message': 'Latest photo retrieved successfully',
-            'photo_url': latest_photo.photo.url 
-        })
-    
+    # # 获取通道层对象
+    #     channel_layer = get_channel_layer()
+
+    #     # 构建消息
+    #     message = {
+    #         'type': 'send_person_notification',
+    #         'message': {'person': number_of_people}
+    #     }
+
+    #     # 向组发送消息
+    #     async_to_sync(channel_layer.group_send)('test', message)
+        message = {'person': 10}  # Example message
+        YourConsumer().send_person_notification(message)
+        return JsonResponse({'message': 'Notification sent successfully.'})
     def post(self, request, *args, **kwargs):
         people_count = int(request.POST.get('people_count'))
        
@@ -64,6 +77,10 @@ class AppAPIView(APIView):
                     obj.is_sprinkling = False
                 
             obj.save()
+            
+            
+            
+            
             
         return JsonResponse({
             'message': 'Latest photo retrieved successfully',

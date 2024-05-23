@@ -1,0 +1,21 @@
+{
+  "name": "makerthon_2025",
+  "version": "1.0.0",
+  "description": "2025 全國大賽初賽",
+  "main": "babel.config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  },
+  "jest": {
+    "testMatch": ["<rootDir>/tests/**/*.js"]
+  }
+  
+}

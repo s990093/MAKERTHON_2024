@@ -2,9 +2,14 @@ import json
 
 from django.http import JsonResponse
 
-from server.mqtt import client as mqtt_client
+# chat/views.py
+from django.shortcuts import render
 
-def publish_message(request):
-    request_data = json.loads(request.body)
-    rc, mid = mqtt_client.publish(request_data['topic'], request_data['msg'])
-    return JsonResponse({'code': rc})   
+    
+def index(request):
+    return render(request, 'chat/index.html', {})
+
+def room(request, room_name):
+    return render(request, 'chat/room.html', {
+        'room_name': room_name
+    })
