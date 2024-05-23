@@ -35,27 +35,32 @@ class ChatConsumer(WebsocketConsumer):
 
     # 从websocket接收到消息时执行函数
     def receive(self, text_data):
-        print(text_data)
-        text_data_json = json.loads(text_data)
-        
-        
-        message = text_data_json['message']
-
-        # 发送消息到频道组，频道组调用chat_message方法
-        async_to_sync(self.channel_layer.group_send)(
-            self.room_group_name,
-            {
-                'type': 'chat_message',
-                'message': message
-            }
-        )
+        try:
+            text_data_json = json.loads(text_data)
+            
+            
+            message = text_data_json['message']
+            device = text_data_json['device']
+            
+            if device == 'input':
+                async_to_sync(self.channel_layer.group_send)(
+                    self.room_group_name,
+                    {
+                        'type': 'chat_message',
+                        'message': message
+                    }
+                )
+        except json.JSONDecodeError:
+            # 如果接收到的消息不是 JSON 格式，直接忽略
+            pass
 
     # 从频道组接收到消息后执行方法
     def chat_message(self, event):
         message = event['message']
+        print(message)
         datetime_str = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
         # 通过websocket发送消息到客户端
         self.send(text_data=json.dumps({
-            'message': f'{datetime_str}:{message}'
+            "click": "up"
         }))

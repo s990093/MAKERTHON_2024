@@ -1,4 +1,4 @@
-.PHONY: camera show run check_port kill_port
+.PHONY: camera show run check_port kill_port test_py test_js
 
 # 默认参数
 use_device ?= 0
@@ -43,3 +43,6 @@ run: check_port
 
 test_js:
 	npm test
+
+test_py:
+	python tests/websocket.py
