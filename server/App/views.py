@@ -15,13 +15,15 @@ from rest_framework import status
 
 from ultralytics import YOLO
 
-from Web.consumers import YourConsumer
+from Web.consumers import *
 from .models import *
 
 # rich
 from rich import pretty
 from rich import print,print_json
 from rich.console import Console
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 
 pretty.install()
 console = Console()
@@ -56,9 +58,19 @@ class AppAPIView(APIView):
 
     #     # 向组发送消息
     #     async_to_sync(channel_layer.group_send)('test', message)
-        message = {'person': 10}  # Example message
-        YourConsumer().send_person_notification(message)
+        # message = {'person': 10}  # Example message
+        # YourConsumer().send_person_notification(message)
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+        "chat",  # 这是一个群组名，用于广播消息给所有连接的WebSocket客户端
+        {
+            'type': 'chat.message',
+            'message': 'Hello, world!'
+        }
+    )
         return JsonResponse({'message': 'Notification sent successfully.'})
+    
+    
     def post(self, request, *args, **kwargs):
         people_count = int(request.POST.get('people_count'))
        
