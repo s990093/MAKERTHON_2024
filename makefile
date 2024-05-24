@@ -45,4 +45,4 @@ test_js:
 	npm test
 
 test_py:
-	python tests/websocket.py
+	$(ACTIVATE_CMD) && python tests/test_websocket_client.py

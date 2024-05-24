@@ -1,3 +1,6 @@
+import unittest
+import asyncio
+
 import asyncio
 import websockets
 import json
@@ -14,7 +17,7 @@ async def client():
         # 要发送的字典
         data_to_send = {
             "device": "camera",
-            "people_count": "10",
+            "people_count": 10,
             'message': 'Hello, Server!',
         }
 
@@ -29,3 +32,17 @@ async def client():
         response = await websocket.recv()
         print(f'Received response: {response}')
         return response
+
+# class TestWebSocketClient(unittest.TestCase):
+
+#     def test_client_response(self):
+#         loop = asyncio.get_event_loop()
+#         response = loop.run_until_complete(client())
+        
+#         # 在这里，你可以根据你的需求对response进行断言
+#         self.assertIn('Hello, Client!', response)
+
+# if __name__ == '__main__':
+#     unittest.main()
+
+asyncio.run(client())

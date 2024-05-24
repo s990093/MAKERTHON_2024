@@ -2,65 +2,84 @@ import json
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 import datetime
-# rich
 from rich import pretty
-from rich import print,print_json
 from rich.console import Console
 
 pretty.install()
 console = Console()
 
 class ChatConsumer(WebsocketConsumer):
-    # websocket建立连接时执行方法
     def connect(self):
-        # 从url里获取聊天室名字，为每个房间建立一个频道组
+        """
+        Method called when a WebSocket connection is established.
+        Initializes the chat room and adds the current channel to the group.
+        """
         self.room_name = self.scope['url_route']['kwargs']['room_name']
-        self.room_group_name = 'chat_%s' % self.room_name
+        self.room_group_name = f'chat_{self.room_name}'
 
-        # 将当前频道加入频道组
         async_to_sync(self.channel_layer.group_add)(
             self.room_group_name,
             self.channel_name
         )
 
-        # 接受所有websocket请求
         self.accept()
 
-    # websocket断开时执行方法
     def disconnect(self, close_code):
+        """
+        Method called when the WebSocket connection is closed.
+        Removes the current channel from the group.
+        """
         async_to_sync(self.channel_layer.group_discard)(
             self.room_group_name,
             self.channel_name
         )
 
-    # 从websocket接收到消息时执行函数
     def receive(self, text_data):
+        """
+        Method called when a message is received from the WebSocket.
+        Processes the message and sends it to the group if it is valid.
+        """
         try:
             text_data_json = json.loads(text_data)
+            message = text_data_json.get('message')
+            device = text_data_json.get('device')
             
-            
-            message = text_data_json['message']
-            device = text_data_json['device']
-            
-            if device == 'input':
-                async_to_sync(self.channel_layer.group_send)(
-                    self.room_group_name,
-                    {
-                        'type': 'chat_message',
-                        'message': message
-                    }
-                )
+
+
+            if device == 'camera':
+                people_count = text_data_json.get('people_count', 0)
+                
+                print(people_count)
+                # criumstante
+                if people_count > 5:
+                    async_to_sync(self.channel_layer.group_send)(
+                        self.room_group_name,
+                        {
+                            'type': 'trigger_alert',
+                            'message': 'Person count exceeds 5!'
+                        }
+                    )
         except json.JSONDecodeError:
-            # 如果接收到的消息不是 JSON 格式，直接忽略
-            pass
+            console.print("Received message is not in JSON format", style="bold red")
 
-    # 从频道组接收到消息后执行方法
     def chat_message(self, event):
+        """
+        Method called when a chat message is received from the group.
+        Sends the message to the WebSocket.
+        """
         message = event['message']
-        print(message)
-        datetime_str = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
-        # 通过websocket发送消息到客户端
         self.send(text_data=json.dumps({
-            "click": "up"
+            "message": message,
+            "timestamp": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        }))
+
+    def trigger_alert(self, event):
+        """
+        Method called when an alert is triggered.
+        Sends an alert message to the WebSocket.
+        """
+        message = event['message']
+        self.send(text_data=json.dumps({
+            "alert": message,
+            "timestamp": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         }))
