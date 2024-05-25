@@ -98,6 +98,6 @@ class ChatConsumer(WebsocketConsumer):
 
         self.send(text_data=json.dumps({
             "click": True,
-            "speed": message.get('speed'),
+            "speed": text_data_json.get('speed'),
             "timestamp": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         }))
