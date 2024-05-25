@@ -70,6 +70,7 @@ class ChatConsumer(WebsocketConsumer):
                     {
                         'type': 'trigger_alert',
                         'message': 'Person count exceeds 5!'
+                        "speed": text_data_json.get('speed')
                     }
                 )
         except json.JSONDecodeError:
@@ -94,10 +95,9 @@ class ChatConsumer(WebsocketConsumer):
         Sends an alert message to the WebSocket.
         """
         message = event['message']
-        text_data_json = json.loads(message)
 
         self.send(text_data=json.dumps({
             "message":message,
-            # "speed": text_data_json.get('speed'),
+            "speed": event['speed'],
             "timestamp": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         }))
