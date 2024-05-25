@@ -63,7 +63,7 @@ const WindSpeedComponent: React.FC = () => {
 
   return (
     <div className="text-center mt-8 font-sans">
-      {isConnecting ? (
+      {windSpeed == 0 ? (
         <h1 className="text-6xl font-bold mb-10 text-red-600">吹一下</h1>
       ) : (
         <>
