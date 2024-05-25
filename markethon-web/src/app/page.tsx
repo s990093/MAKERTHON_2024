@@ -35,8 +35,9 @@ const WindSpeedComponent: React.FC = () => {
     ws.onmessage = (event) => {
       const message = JSON.parse(event.data);
       console.log(message);
-
-      updateWindSpeed(message.speed);
+      if (message.speed >= 200) {
+        updateWindSpeed(message.speed);
+      }
     };
 
     // Cleanup WebSocket connection on unmount
@@ -64,7 +65,7 @@ const WindSpeedComponent: React.FC = () => {
   return (
     <div className="text-center mt-8 font-sans">
       {windSpeed == 0 ? (
-        <h1 className="text-6xl font-bold mb-10 text-red-600">吹一下</h1>
+        <h1 className="text-9xl font-bold mb-10 text-red-600">吹一下!</h1>
       ) : (
         <>
           <h1 className="text-6xl font-bold mb-10">風速：{windSpeed} km/h</h1>
