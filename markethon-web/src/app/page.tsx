@@ -33,10 +33,8 @@ const WindSpeedComponent: React.FC = () => {
     // Handle messages received through WebSocket
     ws.onmessage = (event) => {
       const message = JSON.parse(event.data);
-      console.log(message);
-      if (message.click === true && message.speed !== undefined) {
-        updateWindSpeed(message.speed);
-      }
+
+      updateWindSpeed(message.speed);
     };
 
     // Cleanup WebSocket connection on unmount
