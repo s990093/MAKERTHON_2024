@@ -69,7 +69,7 @@ class ChatConsumer(WebsocketConsumer):
                     self.room_group_name,
                     {
                         'type': 'trigger_alert',
-                        'message': 'Person count exceeds 5!'
+                        'message': 'Person count exceeds 5!',
                         "speed": text_data_json.get('speed')
                     }
                 )
