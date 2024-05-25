@@ -58,6 +58,8 @@ class ChatConsumer(WebsocketConsumer):
             #                 'message': 'Person count exceeds 5!'
             #             }
             #         )
+            
+            print(text_data_json.get('click', False), type(text_data_json.get('click', False)))
                     
             if device == 'esp8266' and text_data_json.get('click', False) == True:
                 
