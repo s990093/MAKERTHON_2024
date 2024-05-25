@@ -96,5 +96,6 @@ class ChatConsumer(WebsocketConsumer):
         message = event['message']
         self.send(text_data=json.dumps({
             "click": True,
+            "speed": message.get('speed'),
             "timestamp": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         }))
