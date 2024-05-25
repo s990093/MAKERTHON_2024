@@ -94,6 +94,8 @@ class ChatConsumer(WebsocketConsumer):
         Sends an alert message to the WebSocket.
         """
         message = event['message']
+        text_data_json = json.loads(message)
+
         self.send(text_data=json.dumps({
             "click": True,
             "speed": message.get('speed'),
