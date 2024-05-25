@@ -4,6 +4,8 @@ import PhotoComponent from "./component/photo";
 import Darw from "./draw";
 import React, { useState, useEffect } from "react";
 
+const URL = "ws://127.0.0.1:8000/ws/chat/test/";
+
 const WindSpeedComponent: React.FC = () => {
   const [windSpeed, setWindSpeed] = useState<number>(0);
   const [electricityFromWind, setElectricityFromWind] = useState<number>(0);
@@ -11,30 +13,51 @@ const WindSpeedComponent: React.FC = () => {
     useState<number>(0);
 
   useEffect(() => {
-    const updateWindSpeed = () => {
-      const newWindSpeed = Math.floor(Math.random() * 101);
-      setWindSpeed(newWindSpeed);
+    // Establish WebSocket connection
+    const ws = new WebSocket(URL);
 
-      // 根據風速計算風力發電的電力
-      const windPower = calculateWindPower(newWindSpeed);
-      setElectricityFromWind(windPower);
-
-      // 假設使用者吹風時，每km/h產生1瓦特的電力
-      const blowingPower = newWindSpeed;
-      setElectricityFromBlowing(blowingPower);
+    // Data to send before listening for messages
+    const data_to_send = {
+      device: "ipad ",
+      people_count: 10,
+      message: "",
     };
 
-    updateWindSpeed();
+    // Send data to the WebSocket server
+    ws.onopen = () => {
+      ws.send(JSON.stringify(data_to_send));
+    };
 
-    const intervalId = setInterval(updateWindSpeed, 5000);
+    // Handle messages received through WebSocket
+    ws.onmessage = (event) => {
+      const message = JSON.parse(event.data);
+      console.log(message);
+      if (message.click === true) {
+        updateWindSpeed();
+      }
+    };
 
-    return () => clearInterval(intervalId);
+    // Cleanup WebSocket connection on unmount
+    return () => {
+      ws.close();
+    };
   }, []);
 
-  // 根據風速計算風力發電的電力
+  const updateWindSpeed = () => {
+    const newWindSpeed = Math.floor(Math.random() * 101);
+    setWindSpeed(newWindSpeed);
+
+    // Calculate wind power and blowing power
+    const windPower = calculateWindPower(newWindSpeed);
+    setElectricityFromWind(windPower);
+
+    const blowingPower = newWindSpeed;
+    setElectricityFromBlowing(blowingPower);
+  };
+
+  // Function to calculate wind power
   const calculateWindPower = (speed: number) => {
-    // 這裡可以是一個複雜的計算公式，這裡假設簡單的線性關係
-    return speed * 10; // 假設每km/h產生10瓦特的電力
+    return speed * 10; // Assuming a simple linear relationship
   };
 
   return (

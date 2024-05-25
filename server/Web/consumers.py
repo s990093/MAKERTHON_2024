@@ -41,23 +41,33 @@ class ChatConsumer(WebsocketConsumer):
         """
         try:
             text_data_json = json.loads(text_data)
-            message = text_data_json.get('message')
+            # message = text_data_json.get('message')
             device = text_data_json.get('device')
             
+            console.print(f"device: %s" % device)
 
-
-            if device == 'camera':
-                people_count = text_data_json.get('people_count', 0)
+            # if device == 'camera':
+            #     people_count = text_data_json.get('people_count', 0)
                 
+            #     # criumstane
+            #     if people_count > 5:
+            #         async_to_sync(self.channel_layer.group_send)(
+            #             self.room_group_name,
+            #             {
+            #                 'type': 'trigger_alert',
+            #                 'message': 'Person count exceeds 5!'
+            #             }
+            #         )
+                    
+            if device == 'esp32' and text_data_json.get('click', False) == True:
                 # criumstane
-                if people_count > 5:
-                    async_to_sync(self.channel_layer.group_send)(
-                        self.room_group_name,
-                        {
-                            'type': 'trigger_alert',
-                            'message': 'Person count exceeds 5!'
-                        }
-                    )
+                async_to_sync(self.channel_layer.group_send)(
+                    self.room_group_name,
+                    {
+                        'type': 'trigger_alert',
+                        'message': 'Person count exceeds 5!'
+                    }
+                )
         except json.JSONDecodeError:
             console.print("Received message is not in JSON format", style="bold red")
 
@@ -69,6 +79,7 @@ class ChatConsumer(WebsocketConsumer):
         message = event['message']
         self.send(text_data=json.dumps({
             "message": message,
+            "click": True,
             "timestamp": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         }))
 
@@ -79,6 +90,6 @@ class ChatConsumer(WebsocketConsumer):
         """
         message = event['message']
         self.send(text_data=json.dumps({
-            "alert": message,
+            "click": True,
             "timestamp": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         }))
