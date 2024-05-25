@@ -4,8 +4,9 @@ import PhotoComponent from "./component/photo";
 import Darw from "./draw";
 import React, { useState, useEffect } from "react";
 
-// const URL = "ws://127.0.0.1:8000/ws/chat/test/";
-const URL = "ws://http://49.213.238.75:8000/ws/chat/test/";
+const URL = "ws://127.0.0.1:8000/ws/chat/test/";
+// const URL = "ws://49.213.238.75:8000/ws/chat/test/";
+const SERVER_URL = "ws://49.213.238.75:5000/ws/chat/test/";
 
 const WindSpeedComponent: React.FC = () => {
   const [windSpeed, setWindSpeed] = useState<number>(0);
@@ -15,7 +16,7 @@ const WindSpeedComponent: React.FC = () => {
 
   useEffect(() => {
     // Establish WebSocket connection
-    const ws = new WebSocket(URL);
+    const ws = new WebSocket(SERVER_URL);
 
     // Data to send before listening for messages
     const data_to_send = {
@@ -42,6 +43,7 @@ const WindSpeedComponent: React.FC = () => {
     return () => {
       ws.close();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const updateWindSpeed = () => {
