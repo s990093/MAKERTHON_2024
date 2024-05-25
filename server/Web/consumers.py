@@ -75,18 +75,18 @@ class ChatConsumer(WebsocketConsumer):
         except json.JSONDecodeError:
             console.print("Received message is not in JSON format", style="bold red")
 
-    def chat_message(self, event):
-        """
-        Method called when a chat message is received from the group.
-        Sends the message to the WebSocket.
-        """
-        message = event['message']
-        self.send(text_data=json.dumps({
-            "message": message,
-            "click": True,
-            "speed": message.get('speed'),
-            "timestamp": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        }))
+    # def chat_message(self, event):
+    #     """
+    #     Method called when a chat message is received from the group.
+    #     Sends the message to the WebSocket.
+    #     """
+    #     message = event['message']
+    #     self.send(text_data=json.dumps({
+    #         "message": message,
+    #         "click": True,
+    #         "speed": message.get('speed'),
+    #         "timestamp": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    #     }))
 
     def trigger_alert(self, event):
         """
@@ -98,6 +98,7 @@ class ChatConsumer(WebsocketConsumer):
 
         self.send(text_data=json.dumps({
             "click": True,
-            "speed": text_data_json.get('speed'),
+            "message":message,
+            # "speed": text_data_json.get('speed'),
             "timestamp": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         }))
