@@ -60,7 +60,7 @@ class ChatConsumer(WebsocketConsumer):
             #         )
             
                     
-            if device == 'esp8266' and bool(text_data_json.get('click', False) )== True:
+            if device == 'esp8266' and bool(text_data_json.get('click', False) ) == True:
                 
                 # console.print(text_data_json)
 
