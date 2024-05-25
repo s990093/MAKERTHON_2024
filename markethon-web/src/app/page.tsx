@@ -3,6 +3,8 @@ import Image from "next/image";
 import PhotoComponent from "./component/photo";
 import Darw from "./draw";
 import React, { useState, useEffect } from "react";
+import { Line } from "react-chartjs-2";
+import "chart.js/auto";
 
 const URL = "ws://127.0.0.1:8000/ws/chat/test/";
 // const URL = "ws://49.213.238.75:8000/ws/chat/test/";
@@ -13,6 +15,7 @@ const WindSpeedComponent: React.FC = () => {
   const [electricityFromBlowing, setElectricityFromBlowing] =
     useState<number>(0);
   const [isConnecting, setIsConnecting] = useState<boolean>(true); // State to manage connection status
+  const [windSpeedData, setWindSpeedData] = useState<number[]>([]);
 
   useEffect(() => {
     // Establish WebSocket connection
@@ -35,8 +38,15 @@ const WindSpeedComponent: React.FC = () => {
     ws.onmessage = (event) => {
       const message = JSON.parse(event.data);
       console.log(message);
-      if (message.speed >= 200) {
+      if (message.speed >= 200 || isConnecting == true) {
         updateWindSpeed(message.speed);
+        setWindSpeedData((prevData) => {
+          const newData = [...prevData, message.speed];
+          // Keep only the last 600 data points
+          return newData.length > 600
+            ? newData.slice(newData.length - 600)
+            : newData;
+        });
       }
     };
 
@@ -45,6 +55,38 @@ const WindSpeedComponent: React.FC = () => {
       ws.close();
     };
   }, []);
+
+  const chartData = {
+    labels: windSpeedData.map((_, index) => index + 1),
+    datasets: [
+      {
+        label: "Wind Speed (km/h)",
+        data: windSpeedData,
+        borderColor: "rgba(75, 192, 192, 1)",
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        fill: false,
+        tension: 0.1,
+      },
+    ],
+  };
+
+  const chartOptions = {
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: "Data Point",
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: "Wind Speed (km/h)",
+        },
+        beginAtZero: true,
+      },
+    },
+  };
 
   const updateWindSpeed = (speed: number) => {
     setWindSpeed(speed);
@@ -68,6 +110,9 @@ const WindSpeedComponent: React.FC = () => {
         <h1 className="text-9xl font-bold mb-10 text-red-600">吹一下!</h1>
       ) : (
         <>
+          <div className="mt-8">
+            <Line data={chartData} options={chartOptions} />
+          </div>
           <h1 className="text-6xl font-bold mb-10">風速：{windSpeed} km/h</h1>
           <div className="flex justify-center space-x-8">
             <div className="text-left">
