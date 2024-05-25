@@ -44,7 +44,7 @@ class ChatConsumer(WebsocketConsumer):
             # message = text_data_json.get('message')
             device = text_data_json.get('device')
             
-            console.print(cf"device: %s" % device)
+            console.print(f"device: %s" % device)
 
             # if device == 'camera':
             #     people_count = text_data_json.get('people_count', 0)
