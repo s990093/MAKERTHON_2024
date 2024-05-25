@@ -59,7 +59,7 @@ class ChatConsumer(WebsocketConsumer):
             #             }
             #         )
                     
-            if device == 'esp32' and text_data_json.get('click', False) == True:
+            if device == 'esp8266' and text_data_json.get('click', False) == True:
                 console.print("click")
 
                 # criumstane
