@@ -34,8 +34,8 @@ const WindSpeedComponent: React.FC = () => {
     ws.onmessage = (event) => {
       const message = JSON.parse(event.data);
       console.log(message);
-      if (message.click === true) {
-        updateWindSpeed();
+      if (message.click === true && message.speed !== undefined) {
+        updateWindSpeed(message.speed);
       }
     };
 
@@ -46,15 +46,14 @@ const WindSpeedComponent: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const updateWindSpeed = () => {
-    const newWindSpeed = Math.floor(Math.random() * 101);
-    setWindSpeed(newWindSpeed);
+  const updateWindSpeed = (speed: number) => {
+    setWindSpeed(speed);
 
     // Calculate wind power and blowing power
-    const windPower = calculateWindPower(newWindSpeed);
+    const windPower = calculateWindPower(speed);
     setElectricityFromWind(windPower);
 
-    const blowingPower = newWindSpeed;
+    const blowingPower = speed;
     setElectricityFromBlowing(blowingPower);
   };
 

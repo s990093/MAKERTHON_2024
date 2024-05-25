@@ -44,7 +44,7 @@ class ChatConsumer(WebsocketConsumer):
             # message = text_data_json.get('message')
             device = text_data_json.get('device')
             
-            console.print(f"device: {device}" )
+            console.print(f"device: {text_data_json}" )
 
             # if device == 'camera':
             #     people_count = text_data_json.get('people_count', 0)
@@ -61,7 +61,7 @@ class ChatConsumer(WebsocketConsumer):
                     
             if device == 'esp8266' and text_data_json.get('click', False) == True:
                 
-                console.print(text_data_json)
+                # console.print(text_data_json)
 
                 # criumstane
                 async_to_sync(self.channel_layer.group_send)(
