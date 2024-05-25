@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "2025 全國大賽初賽",
   "main": "babel.config.js",
-  "directories": {
+  "directories": {      
     "test": "test"
   },
   "scripts": {
@@ -17,5 +17,4 @@
   "jest": {
     "testMatch": ["<rootDir>/tests/**/*.js"]
   }
-  
 }

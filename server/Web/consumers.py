@@ -49,8 +49,7 @@ class ChatConsumer(WebsocketConsumer):
             if device == 'camera':
                 people_count = text_data_json.get('people_count', 0)
                 
-                print(people_count)
-                # criumstante
+                # criumstane
                 if people_count > 5:
                     async_to_sync(self.channel_layer.group_send)(
                         self.room_group_name,

@@ -22,7 +22,10 @@ from rich.console import Console
 pretty.install()
 console = Console()
 
-# # 加载 YOLOv8 模型
+
+
+
+# 加载 YOLOv8 模型
 # try:
 #     model = YOLO('yolov8s.pt')  # 确保路径正确
 #     console.log("yolov8s.pt ok")
