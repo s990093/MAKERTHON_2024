@@ -46,3 +46,8 @@ test_js:
 
 test_py:
 	$(ACTIVATE_CMD) && python tests/test_websocket_client.py
+
+git:
+	git add .
+	git commit -m "This is a new commit"
+	git push 

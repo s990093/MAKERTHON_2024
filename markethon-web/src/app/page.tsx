@@ -4,7 +4,8 @@ import PhotoComponent from "./component/photo";
 import Darw from "./draw";
 import React, { useState, useEffect } from "react";
 
-const URL = "ws://127.0.0.1:8000/ws/chat/test/";
+// const URL = "ws://127.0.0.1:8000/ws/chat/test/";
+const URL = "ws://http://49.213.238.75:8000/ws/chat/test/";
 
 const WindSpeedComponent: React.FC = () => {
   const [windSpeed, setWindSpeed] = useState<number>(0);
