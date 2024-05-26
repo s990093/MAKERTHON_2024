@@ -40,16 +40,14 @@ const WindSpeedComponent: React.FC = () => {
       // if (message.speed >= 200) {
       // ?????
       // message.speed = message.speed - 175;
-      updateWindSpeed(message.speed);
+      // updateWindSpeed(message.speed - 175 + 1);
 
       // if (message.speed < 0) {
       //     message.speed = 0;
       //   }
-      //   setTimeout(() => {
-      //     updateWindSpeed(message.speed);
-      //   }, 1000); // 3 seconds delay      } else {
-      //   updateWindSpeed(0);
-      // }
+      setTimeout(() => {
+        updateWindSpeed((message.speed - 170) / 100);
+      }, 1000);
 
       setWindSpeedData((prevData) => {
         const newData = [...prevData, message.speed];
@@ -92,7 +90,7 @@ const WindSpeedComponent: React.FC = () => {
       y: {
         title: {
           display: true,
-          text: "Wind Speed (km/h)",
+          text: "Wind Speed (m/s)",
         },
         beginAtZero: true,
       },
@@ -112,7 +110,7 @@ const WindSpeedComponent: React.FC = () => {
 
   // Function to calculate wind power
   const calculateWindPower = (speed: number) => {
-    return speed * 100000; // Assuming a simple linear relationship
+    return speed * 1000 * 0.89; // Assuming a simple linear relationship
   };
 
   return (
