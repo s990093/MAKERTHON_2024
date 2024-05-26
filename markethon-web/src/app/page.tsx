@@ -37,17 +37,19 @@ const WindSpeedComponent: React.FC = () => {
     ws.onmessage = (event) => {
       const message = JSON.parse(event.data);
       console.log(message.speed);
-      if (message.speed >= 200) {
-        // ?????
-        message.speed = message.speed - 175;
-        if (message.speed < 0) {
-          message.speed = 0;
-        }
-        setTimeout(() => {
-          updateWindSpeed(message.speed);
-        }, 3000); // 3 seconds delay      } else {
-        updateWindSpeed(0);
-      }
+      // if (message.speed >= 200) {
+      // ?????
+      // message.speed = message.speed - 175;
+      updateWindSpeed(message.speed);
+
+      // if (message.speed < 0) {
+      //     message.speed = 0;
+      //   }
+      //   setTimeout(() => {
+      //     updateWindSpeed(message.speed);
+      //   }, 1000); // 3 seconds delay      } else {
+      //   updateWindSpeed(0);
+      // }
 
       setWindSpeedData((prevData) => {
         const newData = [...prevData, message.speed];
