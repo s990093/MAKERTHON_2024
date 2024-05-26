@@ -40,7 +40,7 @@ const WindSpeedComponent: React.FC = () => {
       // if (message.speed >= 200) {
       // ?????
       // message.speed = message.speed - 175;
-      updateWindSpeed(message.speed);
+      updateWindSpeed(message.speed - 175);
 
       // if (message.speed < 0) {
       //     message.speed = 0;
