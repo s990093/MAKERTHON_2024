@@ -1,59 +1,64 @@
 "use client";
-import Image from "next/image";
-import PhotoComponent from "./component/photo";
-import Darw from "./draw";
+// import Darw from "./draw";
 import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import "chart.js/auto";
 
+// Data to send before listening for messages
+const data_to_send = {
+  device: "ipad",
+  people_count: 10,
+  message: "",
+};
+
 const URL = "ws://127.0.0.1:8000/ws/chat/test/";
 // const URL = "ws://49.213.238.75:8000/ws/chat/test/";
 const SERVER_URL = "ws://49.213.238.75:5000/ws/chat/test/";
+
 const WindSpeedComponent: React.FC = () => {
   const [windSpeed, setWindSpeed] = useState<number>(0);
   const [electricityFromWind, setElectricityFromWind] = useState<number>(0);
   const [electricityFromBlowing, setElectricityFromBlowing] =
     useState<number>(0);
-  const [isConnecting, setIsConnecting] = useState<boolean>(true); // State to manage connection status
+  const [isConnecting, setIsConnecting] = useState<boolean>(false); // State to manage connection status
   const [windSpeedData, setWindSpeedData] = useState<number[]>([]);
 
   useEffect(() => {
     // Establish WebSocket connection
     const ws = new WebSocket(SERVER_URL);
 
-    // Data to send before listening for messages
-    const data_to_send = {
-      device: "ipad",
-      people_count: 10,
-      message: "",
-    };
-
     // Send data to the WebSocket server
     ws.onopen = () => {
       ws.send(JSON.stringify(data_to_send));
-      setIsConnecting(false); // Set connection status to false when open
+      setIsConnecting(true); // Set connection status to false when open
     };
 
     // Handle messages received through WebSocket
     ws.onmessage = (event) => {
       const message = JSON.parse(event.data);
-      console.log(message);
-      if (message.speed >= 200 || isConnecting == true) {
-        updateWindSpeed(message.speed);
-        setWindSpeedData((prevData) => {
-          const newData = [...prevData, message.speed];
-          // Keep only the last 600 data points
-          return newData.length > 600
-            ? newData.slice(newData.length - 600)
-            : newData;
-        });
+      console.log(message.speed);
+      if (message.speed >= 200) {
+        // ?????
+        setTimeout(() => {
+          updateWindSpeed(message.speed);
+        }, 3000); // 3 seconds delay      } else {
+        updateWindSpeed(0);
       }
+
+      setWindSpeedData((prevData) => {
+        const newData = [...prevData, message.speed];
+        // Keep only the last 600 data points
+        return newData.length > 100
+          ? newData.slice(newData.length - 100)
+          : newData;
+      });
     };
 
     // Cleanup WebSocket connection on unmount
     return () => {
       ws.close();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const chartData = {
