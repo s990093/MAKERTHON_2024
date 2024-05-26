@@ -112,7 +112,7 @@ const WindSpeedComponent: React.FC = () => {
 
   // Function to calculate wind power
   const calculateWindPower = (speed: number) => {
-    return speed * 10; // Assuming a simple linear relationship
+    return speed * 100000; // Assuming a simple linear relationship
   };
 
   return (
