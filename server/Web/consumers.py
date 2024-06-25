@@ -74,8 +74,8 @@ class ChatConsumer(WebsocketConsumer):
                     }
                 )
                 
-        except json.JSONDecodeError:
-            console.print("Received message is not in JSON format", style="bold red")
+        except Exception as e:
+            console.print(str(e), style="bold red")
 
     def send_brightness(self, event):
         """
