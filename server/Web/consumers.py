@@ -51,7 +51,7 @@ class ChatConsumer(WebsocketConsumer):
             if device == 'ESP32':
                 brightness = text_data_json['brightness']
                 obj = ArduinoData.objects.get(device_id=1)
-                obj.brightness = brightness
+                obj.brightness = float(brightness)
                 obj.save()
                 
                 # async_to_sync(self.channel_layer.group_send)(
