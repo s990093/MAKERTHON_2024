@@ -4,11 +4,13 @@ from channels.generic.websocket import WebsocketConsumer
 import datetime
 from rich import pretty
 from rich.console import Console
-
+from rich import print_json
 from App.models import *
+from rich import print
 
 pretty.install()
 console = Console()
+
 
 class ChatConsumer(WebsocketConsumer):
     def connect(self):
@@ -47,22 +49,27 @@ class ChatConsumer(WebsocketConsumer):
             
             if device == 'ESP32':
                 brightness = text_data_json.get('brightness')
+                obj = ArduinoData.objects.get(device=1)
+                obj.brightness = brightness
+                obj.save()
                 
-                async_to_sync(self.channel_layer.group_send)(
-                    self.room_group_name,
-                    {
-                        'type': 'send_brightness',
-                        'brightness': brightness
-                    }
-                )
+                # async_to_sync(self.channel_layer.group_send)(
+                #     self.room_group_name,
+                #     {
+                #         'type': 'send_brightness',
+                #         'brightness': brightness
+                #     }
+                # )
             
             elif device == 'ipad':
                 # 根据 iPad 的逻辑进行处理，这里假设要发送特定的数据
+                # print(text_data_json)
                 async_to_sync(self.channel_layer.group_send)(
                     self.room_group_name,
                     {
                         'type': 'send_ipad_data',
-                        'message': 'Data for iPad'
+                        'message': 'Data for iPad',
+                        'state': text_data_json['state'],
                     }
                 )
                 
@@ -90,5 +97,6 @@ class ChatConsumer(WebsocketConsumer):
         self.send(text_data=json.dumps({
             'device': 'ipad',
             'message': message,
-            'timestamp': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            'state': event['state'],
+            # 'timestamp': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         }))
