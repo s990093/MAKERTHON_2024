@@ -21,7 +21,8 @@ const data_to_send = {
 
 const URL = "ws://127.0.0.1:8000/ws/chat/test/";
 // const URL = "ws://49.213.238.75:8000/ws/chat/test/";
-const SERVER_URL = "ws://127.0.0.1:8000/ws/chat/test/";
+// const SERVER_URL = "ws://127.0.0.1:8000/ws/chat/test/";
+const SERVER_URL = "ws://49.213.238.75:8000/ws/chat/test/";
 
 export default function Home() {
   const [isNightLightOn, setNightLightOn] = useState<boolean>(false);
