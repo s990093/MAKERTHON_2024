@@ -44,15 +44,27 @@ class ChatConsumer(WebsocketConsumer):
         Processes the message and sends it to the group if it is valid.
         """
         try:
-            print(text_data)
             text_data_json = json.loads(text_data)
             device = text_data_json.get('device', "none")
             print("Received")
             if device == 'ESP32':
-                brightness = text_data_json['brightness']
-                obj = ArduinoData.objects.get(device_id=1)
-                obj.brightness = float(brightness)
-                obj.save()
+                brightness = text_data_json.get('brightness', None)
+                
+                print(brightness)
+                
+                # Ensure brightness value exists and convert to float
+                if brightness is not None:
+                    brightness = float(brightness)
+                    
+                    # Update Django model
+                    try:
+                        obj = ArduinoData.objects.get(device_id=1)
+                        obj.brightness = brightness
+                        obj.save()
+                        print("Updated brightness successfully:", brightness)
+                    except Exception as e:
+                        print(str(e))
+                    
                 
                 # async_to_sync(self.channel_layer.group_send)(
                 #     self.room_group_name,
