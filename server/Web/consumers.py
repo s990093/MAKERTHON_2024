@@ -44,6 +44,7 @@ class ChatConsumer(WebsocketConsumer):
         Processes the message and sends it to the group if it is valid.
         """
         try:
+            print(text_data)
             text_data_json = json.loads(text_data)
             device = text_data_json.get('device', "none")
             
