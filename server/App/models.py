@@ -1,6 +1,5 @@
 from django.db import models
 from rest_framework import serializers
-
 # 存储照片的模型
 class PostPhoto(models.Model):
     photo = models.ImageField(upload_to='post_photos/')  # 指定照片上传目录
@@ -42,3 +41,17 @@ class IpadSerializer(serializers.ModelSerializer):
     class Meta:
         model = SolarDeviceData
         fields =  '__all__'
+
+
+
+class ArduinoData(models.Model):
+    device_id = models.IntegerField(unique=True)  # 如果设备ID与其他模型关联，可改为ForeignKey
+    brightness = models.FloatField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+    
+
+
+class ArduinoDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ArduinoData
+        fields = ('device_id', 'brightness', 'timestamp')

@@ -13,3 +13,6 @@ class App(admin.ModelAdmin):
 class SolarDeviceDataApp(admin.ModelAdmin):
     list_display = ('device_id', 'electricity', 'location', 'is_sprinkling') 
 
+
+
+admin.site.register(ArduinoData)

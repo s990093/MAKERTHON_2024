@@ -5,6 +5,8 @@ import datetime
 from rich import pretty
 from rich.console import Console
 
+from App.models import *
+
 pretty.install()
 console = Console()
 
@@ -41,63 +43,52 @@ class ChatConsumer(WebsocketConsumer):
         """
         try:
             text_data_json = json.loads(text_data)
-            # message = text_data_json.get('message')
-            device = text_data_json.get('device')
+            device = text_data_json.get('device', "none")
             
-            console.print(f"device: {text_data_json}" )
-
-            # if device == 'camera':
-            #     people_count = text_data_json.get('people_count', 0)
+            if device == 'ESP32':
+                brightness = text_data_json.get('brightness')
                 
-            #     # criumstane
-            #     if people_count > 5:
-            #         async_to_sync(self.channel_layer.group_send)(
-            #             self.room_group_name,
-            #             {
-            #                 'type': 'trigger_alert',
-            #                 'message': 'Person count exceeds 5!'
-            #             }
-            #         )
-            
-                    
-            if device == 'esp8266' and bool(text_data_json.get('click', False) ) == True:
-                
-                # console.print(text_data_json)
-
-                # criumstane
                 async_to_sync(self.channel_layer.group_send)(
                     self.room_group_name,
                     {
-                        'type': 'trigger_alert',
-                        'message': 'Person count exceeds 5!',
-                        "speed": text_data_json.get('speed')
+                        'type': 'send_brightness',
+                        'brightness': brightness
                     }
                 )
+            
+            elif device == 'ipad':
+                # 根据 iPad 的逻辑进行处理，这里假设要发送特定的数据
+                async_to_sync(self.channel_layer.group_send)(
+                    self.room_group_name,
+                    {
+                        'type': 'send_ipad_data',
+                        'message': 'Data for iPad'
+                    }
+                )
+                
         except json.JSONDecodeError:
             console.print("Received message is not in JSON format", style="bold red")
 
-    # def chat_message(self, event):
-    #     """
-    #     Method called when a chat message is received from the group.
-    #     Sends the message to the WebSocket.
-    #     """
-    #     message = event['message']
-    #     self.send(text_data=json.dumps({
-    #         "message": message,
-    #         "click": True,
-    #         "speed": message.get('speed'),
-    #         "timestamp": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    #     }))
-
-    def trigger_alert(self, event):
+    def send_brightness(self, event):
         """
-        Method called when an alert is triggered.
-        Sends an alert message to the WebSocket.
+        Method called to send Arduino brightness data to the WebSocket.
+        """
+        brightness = event['brightness']
+        
+        self.send(text_data=json.dumps({
+            'device': 'arduino',
+            'brightness': brightness,
+            'timestamp': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        }))
+    
+    def send_ipad_data(self, event):
+        """
+        Method called to send iPad data to the WebSocket.
         """
         message = event['message']
-
+        
         self.send(text_data=json.dumps({
-            "message":message,
-            "speed": event['speed'],
-            "timestamp": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            'device': 'ipad',
+            'message': message,
+            'timestamp': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         }))
