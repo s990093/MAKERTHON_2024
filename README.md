@@ -1,8 +1,8 @@
 # MAKERTHON_2024
 
-## 2025 全國大賽初賽
+## 2024 全國大賽初賽
 
-欢迎来到 2025 全国大赛项目！本项目结合了多种技术，包括 SwiftUI 应用程序、Arduino ESP8266、Python Django 服务器、相机模块，以及使用 Makefile 进行自动化管理。
+欢迎来到 2024 全国大赛项目！本项目结合了多种技术，包括 SwiftUI 应用程序、Arduino ESP8266、Python Django 服务器、相机模块，以及使用 Makefile 进行自动化管理。
 
 ## 项目结构
 
